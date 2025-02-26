@@ -1,0 +1,8 @@
+.mainHeading {
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  padding: 70px 20px 10px;
+  background-color: var(--background-light-color);
+  position: relative;
+}

@@ -1,0 +1,32 @@
+.gradeWrapper {
+  max-width: 1200px;
+  margin: 50px auto 0;
+  padding: 0 30px 60px 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+@media (max-width: 920px) {
+  .gradeWrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .gradeWrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .gradeWrapper {
+    padding: 0 20px 50px 40px;
+  }
+}
+
+@media (max-width: 385px) {
+  .gradeWrapper {
+    grid-template-columns: 1fr;
+  }
+}

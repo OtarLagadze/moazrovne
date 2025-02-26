@@ -1,0 +1,61 @@
+.grade {
+  text-decoration: none;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--grade-color);
+  border-radius: 10px;
+  color: var(--grade-color);
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+  transition: all 300ms;
+}
+
+.grade.active {
+  background-color: var(--grade-hover-color);
+}
+
+@media (min-width: 730px) {
+  .grade:hover {
+    background-color: var(--grade-hover-color);
+  }
+  .grade:active {
+    scale: 0.95;
+  }
+}
+
+.gradeHighlight {
+  background-color: var(--grade-color);
+  color: #fff;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  translate: -23px -50%;
+  border-radius: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .grade {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 475px) {
+  .grade {
+    font-size: 17px;
+    padding: 0 0 0 10px;
+  }
+
+  .gradeHighlight {
+    font-size: 24px;
+  }
+}

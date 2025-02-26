@@ -1,0 +1,35 @@
+{
+  "name": "moazrovne-next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^3.0.0",
+    "@mdx-js/react": "^3.0.0",
+    "@next/bundle-analyzer": "^14.2.4",
+    "@sanity/image-url": "^1.0.2",
+    "@sanity/locale-ka-ge": "^1.0.2",
+    "@vercel/analytics": "^1.1.2",
+    "@vercel/speed-insights": "^1.0.9",
+    "gray-matter": "^4.0.3",
+    "next": "^14.1.0",
+    "next-sanity": "^9.3.0",
+    "nextjs-toploader": "^1.6.12",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-select": "^5.8.0",
+    "react-spinners": "^0.13.8",
+    "react-timer-hook": "^3.0.7",
+    "sharp": "^0.33.4",
+    "yet-another-react-lightbox": "^3.20.0"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0"
+  }
+}

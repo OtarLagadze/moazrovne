@@ -1,0 +1,119 @@
+.footer {
+  margin-top: 200px;
+  background-color: var(--footer-background-color);
+  position: relative;
+}
+
+.footerWrapper {
+  padding: 50px;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 100px;
+}
+
+.footerHeading {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+
+.footerLi {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.footerLink:link,
+.footerLink:visited {
+  text-decoration: none;
+  font-size: 18px;
+  color: #e6e6e6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 300ms;
+}
+
+.footerLink:hover,
+.footerLink:active {
+  opacity: 0.8;
+}
+
+.fbLogo {
+  width: 60px;
+  height: auto;
+}
+
+.icon {
+  width: 30px;
+  height: auto;
+}
+
+.contactContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 16px;
+  color: #e6e6e6;
+  padding-bottom: 10px;
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  translate: 0 -100%;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(123% + 1.3px);
+  height: 159px;
+}
+
+.wave .shapeFill {
+  fill: var(--footer-background-color);
+}
+
+@media (max-width: 550px) {
+  .wave svg {
+    width: calc(175% + 1.3px);
+    height: 120px;
+  }
+
+  .footerHeading {
+    font-size: 22px;
+  }
+
+  .footerLink:link,
+  .footerLink:visited {
+    font-size: 13px;
+  }
+
+  .fbLogo {
+    width: 35px;
+    height: auto;
+  }
+
+  .icon {
+    width: 20px;
+    height: auto;
+  }
+
+  .copyright {
+    text-align: center;
+    font-size: 12px;
+    pad: 0 4px 10px;
+    color: #e6e6e6;
+  }
+}

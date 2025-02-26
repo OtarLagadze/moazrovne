@@ -1,0 +1,15 @@
+.wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: -1;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(222% + 1.3px);
+  /* height: 194px; */
+}

@@ -1,0 +1,53 @@
+.headingWrapper {
+  padding: 70px 20px 40px;
+  background-color: var(--background-light-color);
+  position: relative;
+}
+
+.heading {
+  font-size: 40px;
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: 600;
+}
+
+.formsWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin: 300px 0;
+}
+
+.fallbackWrapper {
+  margin: 150px 0 0 0;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.fallbackWrapper h2 {
+  font-size: 34px;
+  max-width: 500px;
+}
+
+.fallbackWrapper p {
+  font-size: 22px;
+  margin-top: 20px;
+}
+
+@media (max-width: 550px) {
+  .fallbackWrapper h2 {
+    font-size: 24px;
+  }
+
+  .fallbackWrapper p {
+    font-size: 18px;
+  }
+}

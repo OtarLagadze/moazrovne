@@ -1,0 +1,35 @@
+.gallery {
+  margin-top: 170px;
+}
+
+.imageWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.galleryCard {
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: 500;
+  transition: all 300ms;
+}
+
+.galleryCard:hover,
+.galleryCard:active {
+  opacity: 80%;
+}
+
+.galleryCard img {
+  object-fit: cover;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+}
+
+.galleryCard p {
+  margin-top: 10px;
+}

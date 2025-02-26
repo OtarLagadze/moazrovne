@@ -1,0 +1,36 @@
+.mainHeading {
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  padding: 100px 20px 200px;
+  background-color: var(--background-light-color);
+  position: relative;
+}
+
+.contentWrapper {
+  max-width: 700px;
+  margin: -65px auto 0;
+  padding: 0 50px;
+}
+
+.imageWrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+.aboutImage {
+  width: 100%;
+  height: auto;
+  translate: 0 -100px;
+}
+
+@media (max-width: 550px) {
+  .contentWrapper {
+    padding: 0 20px;
+  }
+
+  .imageWrapper {
+    padding: 0 20px;
+  }
+}
