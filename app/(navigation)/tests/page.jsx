@@ -12,7 +12,7 @@ export const metadata = {
 
 async function getData() {
   const query = `
-    *[_type == 'tests'] | order(date desc) {
+    *[_type == 'tests'] | order(title desc) {
       subject,
         grade,
         title,

@@ -26,6 +26,7 @@
     "react-spinners": "^0.13.8",
     "react-timer-hook": "^3.0.7",
     "sharp": "^0.33.4",
+    "styled-components": "^6.1.15",
     "yet-another-react-lightbox": "^3.20.0"
   },
   "devDependencies": {
