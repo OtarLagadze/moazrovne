@@ -30,5 +30,21 @@ export const aboutType = defineType({
         },
       ],
     }),
+    defineField({
+      name: 'coworkers',
+      type: 'array',
+      title: 'თანამშრომლები',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'firstName', type: 'string', title: 'სახელი' },
+            { name: 'lastName', type: 'string', title: 'გვარი' },
+            { name: 'role', type: 'string', title: 'როლი' },
+            { name: 'cv', type: 'file', title: 'CV' },
+          ],
+        },
+      ],
+    }),
   ],
 })

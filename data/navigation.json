@@ -10,19 +10,19 @@
     "icon": "team"
   },
   {
-    "href": "/tests",
-    "text": "ტესტები",
-    "icon": "test"
-  },
-  {
     "href": "/news",
     "text": "სიახლეები",
     "icon": "earth"
   },
   {
-    "href": "/pay",
-    "text": "გადახდა",
-    "icon": "money"
+    "href": "/tests",
+    "text": "ტესტები",
+    "icon": "test"
+  },
+  {
+    "href": "/olympiadProblems",
+    "text": "საერთაშორისო ოლიმპიადები",
+    "icon": "medal"
   },
   {
     "href": "/gallery",
@@ -30,9 +30,9 @@
     "icon": "photo"
   },
   {
-    "href": "/olympiadProblems",
-    "text": "საერთაშორისო ოლიმპიადები",
-    "icon": "medal"
+    "href": "/pay",
+    "text": "გადახდა",
+    "icon": "money"
   },
   {
     "href": "/contact",
