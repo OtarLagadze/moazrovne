@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       <body className={notoSansGeorgian.className}>
         <NextTopLoader />
         <Navigation />
-        <main>
+        <main className="mainRender">
           {children}
           <Analytics debug={false} />
         </main>

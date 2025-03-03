@@ -1,39 +1,6 @@
-.navigationPlaceholder {
-  background-color: var(--background-light-color);
-  height: 100px;
-}
-
-.header {
-  padding: 0 50px;
-  background-color: var(--background-light-color);
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  width: 100%;
-  transition: box-shadow 0.3s ease-in, border-radius 0.3s ease-in;
-}
-
 .shadow {
   box-shadow: 0 0 2px 2px rgba(95, 42, 121, 0.08);
   border-radius: 0 0 32px 32px;
-}
-
-.contentWrapper {
-  max-width: 1600px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logoWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  color: var(--secondary-color);
-  text-decoration: none;
-  font-weight: 600;
 }
 
 .logoWrapper img {
@@ -41,65 +8,53 @@
   height: auto;
 }
 
-.ul {
-  list-style: none;
+.navHolder {
+  width: 85px;
+  height: 100vh;
+  position: fixed;
+  transition: ease-in-out .25s, ease-in-out .25s;
+  overflow: clip;
+  z-index: 1;
+}
+
+.navHolder:hover {
+  width: 360px;
+}
+
+.nav {
+  width: 360px;
+  height: 100vh;
   display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  background-color: var(--secondary-color);
 }
 
 .link {
-  padding: 10px 20px;
-  font-size: 20px;
-  text-decoration: none;
-  color: var(--primary-color);
-  transition: all 300ms;
-  position: relative;
-}
-
-.link::before {
-  content: "";
-  width: 0;
-  height: 2px;
-  border-radius: 2px;
-  background-color: var(--primary-color);
-  position: absolute;
-  bottom: -0.25rem;
-  left: 50%;
-  transition: width 0.4s, left 0.4s;
-}
-
-.contact {
-  font-size: 20px;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 1rem 0;
-  color: var(--primary-color);
-  transition: all 300ms;
-}
-
-.active {
-  background-color: var(--secondary-color);
-  color: #fff;
-  border-bottom-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  margin-inline: 10px;
+  margin-top: 15px;
+  padding: 5px;
   border-radius: 10px;
+  transition: ease-in-out .1s, ease-in-out .1s;
+  text-decoration: none;
+  list-style: none;
 }
 
-@media (min-width: 1000px) {
-  .contact:hover,
-  .contact:active {
-    opacity: 0.7;
-  }
+.link:first-child > p {
+  font-weight: bold;
+}
 
-  .link:hover::before {
-    width: 100%;
-    left: 0;
-  }
+.link > p {
+  color: white;
+  font-size: 24px;
+  font-weight: 400;
+  padding-left: 20px;
+}
 
-  .active:hover::before {
-    width: 0;
-  }
+.link:hover {
+  background-color: var(--footer-background-color);
+  border-bottom-color: var(--footer-background-color);
 }
 
 /*************************/
@@ -109,7 +64,7 @@
 .mobileNav {
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(25px);
+  background-color: var(--secondary-color);
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -134,9 +89,8 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   justify-content: center;
-  align-items: center;
 }
 
 .mobileContact {
@@ -159,9 +113,15 @@
 
 .menuBtn {
   display: none;
+  position: fixed;
   background: none;
   border: none;
+  margin: 6px;
+  padding: 2px;
+  border-radius: 5px;
+  box-sizing: border-box;
   z-index: 100;
+  background-color: var(--secondary-color);
 }
 
 .hamburger {
@@ -179,7 +139,7 @@
 
 .line {
   fill: none;
-  stroke: var(--secondary-color);
+  stroke: var(--footer-background-color);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 3;
@@ -205,23 +165,6 @@
 /*********************/
 
 @media (max-width: 1300px) {
-  .navigationPlaceholder {
-    height: 80px;
-  }
-
-  .logoWrapper {
-    font-size: 16px;
-  }
-
-  .logoWrapper img {
-    width: 80px;
-    height: auto;
-  }
-
-  .ul {
-    gap: 0px;
-  }
-
   .link {
     font-size: 16px;
     .header {
@@ -234,11 +177,7 @@
 }
 
 @media (max-width: 1000px) {
-  .nav {
-    display: none;
-  }
-
-  .contact {
+  .navHolder {
     display: none;
   }
 
@@ -257,19 +196,6 @@
 }
 
 @media (max-width: 550px) {
-  .navigationPlaceholder {
-    height: 60px;
-  }
-
-  .header {
-    padding: 0 20px;
-  }
-
-  .logoWrapper img {
-    width: 60px;
-    height: auto;
-  }
-
   .hamburger svg {
     height: 2.5em;
   }

@@ -1,22 +1,21 @@
-import LessonsComponent from "@/components/lessons/LessonsComponent";
+import OlympiadProblemsComponent from "@/components/olympiadProblems/OlympiadProblemsComponent";
 import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
-import TestsComponent from "@/components/tests/TestsComponent";
 
 export const revalidate = 30;
 
 export const metadata = {
-  title: "გაკვეთილები",
+  title: "საერთაშორისო ოლიმპიადები",
   description: "მოემზადე მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის"
 };
 
 async function getData() {
   const query = `
-    *[_type == 'lessons'] | order(date desc) {
+    *[_type == 'olympiad_problems'] | order(date desc) {
       subfield,
       grade,
       title,
-      "lesson": lessons.asset->url
+      "problem": olympiad_problems.asset->url
     }
   `;
 
@@ -24,12 +23,12 @@ async function getData() {
   return data;
 }
 
-export default async function LessonsPage() {
-  const lessons = await getData();
+export default async function OlympiadProblemsPage() {
+  const problems = await getData();
   return (
     <div>
       <h1 className={classes.mainHeading}>მოემზადე  მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის</h1>
-      <LessonsComponent lessons={lessons} />
+      <OlympiadProblemsComponent problems={problems} />
     </div>
   );
 }

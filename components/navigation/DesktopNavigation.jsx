@@ -7,26 +7,22 @@ export default function DesktopNavigation() {
   const path = usePathname();
 
   return (
-    <>
+    <div className={classes.navHolder}>
       <nav className={classes.nav}>
-        <ul className={classes.ul}>
+        <ul>
           {navigationData.map((el, i) => (
-            <li key={el.href + i}>
-              <Link
-                href={el.href}
-                className={`${classes.link} ${
-                  path === el.href ? classes.active : ""
-                }`}
-              >
-                {el.text}
-              </Link>
-            </li>
+            <Link
+              href={el.href}
+              key={el.href + i}
+              className={`${classes.link} ${
+                path === el.href ? classes.active : ""
+              }`}>
+              <img src={`/svg/${el.icon}.svg`} className='icon'/>
+              <p>{el.text}</p>
+            </Link>
           ))}
         </ul>
       </nav>
-      <Link href="/contact" className={classes.contact}>
-        კონტაქტი
-      </Link>
-    </>
+    </div>
   );
 }

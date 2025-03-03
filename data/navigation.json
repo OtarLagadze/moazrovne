@@ -1,26 +1,42 @@
 [
   {
+    "href": "/",
+    "text": "მოაზროვნე",
+    "icon": "logo"
+  },
+  {
     "href": "/about",
-    "text": "ჩვენ შესახებ"
+    "text": "ჩვენ შესახებ",
+    "icon": "team"
   },
   {
     "href": "/tests",
-    "text": "ტესტები"
+    "text": "ტესტები",
+    "icon": "test"
   },
   {
     "href": "/news",
-    "text": "სიახლეები"
+    "text": "სიახლეები",
+    "icon": "earth"
   },
   {
     "href": "/pay",
-    "text": "გადახდა"
+    "text": "გადახდა",
+    "icon": "money"
   },
   {
     "href": "/gallery",
-    "text": "გალერია"
+    "text": "გალერია",
+    "icon": "photo"
   },
   {
-    "href": "/lessons",
-    "text": "საერთაშორისო ოლიმპიადები"
+    "href": "/olympiadProblems",
+    "text": "საერთაშორისო ოლიმპიადები",
+    "icon": "medal"
+  },
+  {
+    "href": "/contact",
+    "text": "კონტაქტი",
+    "icon": "chat"
   }
 ]

@@ -18,11 +18,6 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
-            <li className={classes.footerLi}>
-              <Link className={classes.footerLink} href={"/contact"}>
-                კონტაქტი
-              </Link>
-            </li>
           </ul>
         </div>
         <div>

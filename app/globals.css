@@ -1,9 +1,9 @@
 :root {
   --primary-color: #171814;
-  --secondary-color: #1f293d;
+  --secondary-color: #4B97C9;
   --secondary-light-color: #1f293d;
-  --background-light-color: #ecf3ff;
-  --footer-background-color: #4f5052;
+  --background-light-color: #D0E8F2;
+  --footer-background-color: #1B4965;
 }
 
 *,
@@ -12,6 +12,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* shifting everything because of navbar */
+.mainRender {
+  margin-left: 85px; 
+}
+
+@media (max-width: 1000px) {
+  .mainRender {
+    margin-left: 0px;
+  }
 }
 
 body {

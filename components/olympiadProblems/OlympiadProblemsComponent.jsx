@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-const Filter = dynamic(() => import("@/components/lessons/Filter"), {
+const Filter = dynamic(() => import("@/components/olympiadProblems/Filter"), {
   ssr: false,
 });
 import classes from "@/app/(navigation)/tests/page.module.css";
@@ -28,19 +28,19 @@ const subfieldOptions = [
   { value: "geometry", label: "გეომეტრია" },
 ];
 
-export default function LessonsComponent({ lessons }) {
+export default function OlympiadProblemsComponent({ problems }) {
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [selectedSubfield, setSelectedSubfield] = useState(null);
 
-  const filteredLessons = lessons.filter((lesson) => {
+  const filteredProblems = problems.filter((problem) => {
     const gradeFilter =
       !selectedGrade ||
       selectedGrade.length === 0 ||
-      selectedGrade.some((grade) => lesson.grade === grade.value);
+      selectedGrade.some((grade) => problem.grade === grade.value);
     const subfieldFilter =
       !selectedSubfield ||
       selectedSubfield.length === 0 ||
-      selectedSubfield.some((subfield) => lesson.subfield === subfield.value);
+      selectedSubfield.some((subfield) => problem.subfield === subfield.value);
 
     return gradeFilter && subfieldFilter;
   });
@@ -61,13 +61,13 @@ export default function LessonsComponent({ lessons }) {
         />
       </div>
       <div className={classes.testWrapper}>
-        {filteredLessons.length === 0 && (
+        {filteredProblems.length === 0 && (
           <p className={classes.noTestText}>
-            მოცემული ფილტრით გაკვეთილი არ მოიძებნა
+            მოცემული ფილტრით ამოცანა არ მოიძებნა
           </p>
         )}
 
-        {filteredLessons.map((lesson, i) => (
+        {filteredProblems.map((lesson, i) => (
           <a
             href={lesson.lesson}
             key={lesson.lesson + i}
