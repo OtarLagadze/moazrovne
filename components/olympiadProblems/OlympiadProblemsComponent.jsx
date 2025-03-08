@@ -1,14 +1,12 @@
 "use client";
 
+import { useState, useMemo, Suspense } from "react";
 import dynamic from "next/dynamic";
-const Filter = dynamic(() => import("@/components/olympiadProblems/Filter"), {
-  ssr: false,
-});
+const Filter = dynamic(() => import("@/components/olympiadProblems/Filter"), { ssr: false });
 import classes from "@/app/(navigation)/tests/page.module.css";
-import { useState } from "react";
+import ProblemComponent from "../problem/ProblemComponent";
 
 const classOptions = [
-  { value: "union", label: "გაერთიანებული" },
   { value: "12", label: "12" },
   { value: "11", label: "11" },
   { value: "10", label: "10" },
@@ -24,65 +22,49 @@ const classOptions = [
 ];
 
 const subfieldOptions = [
-  { value: "algebra", label: "ალგებრა" },
-  { value: "geometry", label: "გეომეტრია" },
+  { value: "ალგებრა", label: "ალგებრა" },
+  { value: "გეომეტრია", label: "გეომეტრია" },
 ];
 
-export default function OlympiadProblemsComponent({ problems }) {
-  const [selectedGrade, setSelectedGrade] = useState(null);
-  const [selectedSubfield, setSelectedSubfield] = useState(null);
+export default function OlympiadProblemsComponent({ problems, currentPage }) {
+  const [selectedGrade, setSelectedGrade] = useState([]);
+  const [selectedSubfield, setSelectedSubfield] = useState([]);
 
-  const filteredProblems = problems.filter((problem) => {
-    const gradeFilter =
-      !selectedGrade ||
-      selectedGrade.length === 0 ||
-      selectedGrade.some((grade) => problem.grade === grade.value);
-    const subfieldFilter =
-      !selectedSubfield ||
-      selectedSubfield.length === 0 ||
-      selectedSubfield.some((subfield) => problem.subfield === subfield.value);
+  const filteredProblems = useMemo(() => {
+    return problems.filter((problem) => {
+      const selectedGradeValues = (selectedGrade ?? []).map((grade) => parseInt(grade.value, 10));
+      const gradeFilter =
+        selectedGradeValues.length === 0 ||
+        selectedGradeValues.some((grade) => problem.grade.from <= grade && problem.grade.to >= grade);
 
-    return gradeFilter && subfieldFilter;
-  });
+      const subfieldFilter =
+        selectedSubfield.length === 0 ||
+        selectedSubfield.some((subfield) => problem.tags.includes(subfield.value));
+
+      return gradeFilter && subfieldFilter;
+    });
+  }, [problems, selectedGrade, selectedSubfield]);
+
+  const itemsPerPage = 5;
+  const paginatedProblems = filteredProblems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
       <div className={classes.filterWrapper}>
-        <Filter
-          options={classOptions}
-          placeholder={"აირჩიეთ კლასი"}
-          onChange={setSelectedGrade}
-          defaultValue={selectedGrade}
-        />
-        <Filter
-          options={subfieldOptions}
-          placeholder={"აირჩიეთ განხრა"}
-          onChange={setSelectedSubfield}
-        />
+        <Filter options={classOptions} placeholder={"აირჩიეთ კლასი"} onChange={setSelectedGrade} />
+        <Filter options={subfieldOptions} placeholder={"აირჩიეთ განხრა"} onChange={setSelectedSubfield} />
       </div>
-      <div className={classes.testWrapper}>
-        {filteredProblems.length === 0 && (
-          <p className={classes.noTestText}>
-            მოცემული ფილტრით ამოცანა არ მოიძებნა
-          </p>
-        )}
 
-        {filteredProblems.map((lesson, i) => (
-          <a
-            href={lesson.lesson}
-            key={lesson.lesson + i}
-            className={classes.test}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {lesson.title}
-            { lesson.grade !== "union" && 
-              <div className={classes.testLabel}>
-                {lesson.grade}
-              </div>
-            }
-          </a>
-        ))}
+      <div className={classes.testWrapper} style={{padding: '0px 10px 0px 10px'}}>
+        {paginatedProblems.length === 0 && <p className={classes.noTestText}>ამ ფილტრისთვის ამოცანები არ მოიძებნა</p>}
+        <Suspense fallback={<div>იტვირთება...</div>}>
+          {paginatedProblems.map((problem, i) => (
+            <ProblemComponent key={i} problem={problem} />
+          ))}
+        </Suspense>
       </div>
     </>
   );

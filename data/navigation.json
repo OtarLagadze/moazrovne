@@ -15,14 +15,19 @@
     "icon": "earth"
   },
   {
-    "href": "/tests",
-    "text": "ტესტები",
-    "icon": "test"
-  },
-  {
     "href": "/olympiadProblems",
     "text": "საერთაშორისო ოლიმპიადები",
     "icon": "medal"
+  },
+  {
+    "href": "/entrants",
+    "text": "აბიტურიენტის გვერდი",
+    "icon": "hat"
+  },
+  {
+    "href": "/tests",
+    "text": "ტესტები",
+    "icon": "test"
   },
   {
     "href": "/gallery",

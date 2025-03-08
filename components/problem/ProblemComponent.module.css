@@ -1,0 +1,30 @@
+.problemCard {
+  background-color: var(--background-light-color);
+  margin-bottom: 20px;
+}
+
+.problemHeader {
+  background-color: var(--secondary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-inline: 10px;
+  padding-block: 4px;
+}
+
+.problemStatement {
+  /* margin-block: 10px; */
+  border-radius: 5px;
+  /* padding: 10px; */
+  font-size: 1.3rem;
+}
+
+.mathJax {
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* background-color: red; */
+  padding: 10px;
+}

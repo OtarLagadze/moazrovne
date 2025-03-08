@@ -167,12 +167,6 @@
 @media (max-width: 1300px) {
   .link {
     font-size: 16px;
-    .header {
-      padding: 0 50px;
-      background-color: var(--background-light-color);
-    }
-
-    font-size: 16px;
   }
 }
 
@@ -185,8 +179,8 @@
     display: block;
   }
 
-  .link {
-    font-size: 25px;
+  .link > p {
+    font-size: 1.2rem;
   }
 
   .link:hover,
@@ -194,6 +188,20 @@
     opacity: 0.7;
   }
 }
+
+@media (max-width: 400px) {
+
+  .link {
+    margin-top: 8px;
+  }
+
+  .link > img {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+}
+
 
 @media (max-width: 550px) {
   .hamburger svg {

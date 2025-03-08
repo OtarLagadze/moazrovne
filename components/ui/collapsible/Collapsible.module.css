@@ -1,0 +1,20 @@
+.collapsibleButton {
+  background: var(--secondary-color);
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.collapsibleButton:hover {
+  background: var(--footer-background-color);
+}
+
+.collapsibleContent {
+  padding-left: 5%;
+  transition: 0.2s ease-in-out;
+}

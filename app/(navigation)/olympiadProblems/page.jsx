@@ -1,34 +1,41 @@
 import OlympiadProblemsComponent from "@/components/olympiadProblems/OlympiadProblemsComponent";
 import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
+import { OlympiadProblemsPagination } from "@/components/olympiadProblems/OlympiadProblemsPagination";
 
 export const revalidate = 30;
 
 export const metadata = {
   title: "საერთაშორისო ოლიმპიადები",
-  description: "მოემზადე მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის"
+  description: "მოემზადე მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის",
 };
 
 async function getData() {
   const query = `
-    *[_type == 'olympiad_problems'] | order(date desc) {
-      subfield,
+    *[_type == 'problems' && "საოლიმპიადო" in tags[]] | order(taskId desc) {
+      taskId,
+      statement,
       grade,
-      title,
-      "problem": olympiad_problems.asset->url
+      tags,
+      hints,
+      comments,
+      photos,
+      "currentSlug": slug.current
     }
   `;
-
-  const data = await client.fetch(query);
-  return data;
+  return await client.fetch(query);
 }
 
-export default async function OlympiadProblemsPage() {
+export default async function OlympiadProblemsPage({ searchParams }) {
+  const currentPage = searchParams.page && Number(searchParams.page) > 0 ? Number(searchParams.page) : 1;
   const problems = await getData();
+
   return (
-    <div>
+    <>
       <h1 className={classes.mainHeading}>მოემზადე  მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის</h1>
-      <OlympiadProblemsComponent problems={problems} />
-    </div>
+      <OlympiadProblemsComponent problems={problems} currentPage={currentPage} />
+      <OlympiadProblemsPagination activePage={currentPage} totalItems={problems.length} />
+    </>
   );
 }
+
