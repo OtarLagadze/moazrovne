@@ -7,9 +7,9 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax'
 const config = {
   loader: { load: ["input/tex", "output/svg"] },
   tex: {
-    inlineMath: [["\(", "\)"]],
-    // displayMath: [["\\(", "\\)"]],
-    // processEscapes: true, // \$ for actual dollar sign
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["$", "$"]],
+    processEscapes: true, // \$ for actual dollar sign
   }
 };
 
