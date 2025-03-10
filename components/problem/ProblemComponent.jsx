@@ -16,7 +16,7 @@ const config = {
 function HintList({ hints, photos }) {
   return (
     <>
-      {hints.map((hint, index) => (
+      {hints?.map((hint, index) => (
         <Collapsible key={index} title={`მითითება #${index + 1}`} shift={false}>
           <MathJax key={hint} className={classes.mathJax}>
             {hint}
@@ -25,7 +25,7 @@ function HintList({ hints, photos }) {
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
-          <Collapsible key={index} title={`მითითება #${index + hints?.length + 1}`} shift={false}>
+          <Collapsible key={index} title={`მითითება #${index + (hints ? hints.length : 0) + 1}`} shift={false}>
             <img
               key={index}
               src={urlFor(photo).url()}
@@ -42,7 +42,7 @@ function HintList({ hints, photos }) {
 function CommentList({ comments, photos }) {
   return (
     <>
-      {comments.map((comment, index) => (
+      {comments?.map((comment, index) => (
         <Collapsible key={index} title={`კომენტარი #${index + 1}`} shift={false}>
           <MathJax key={comment} className={classes.mathJax}>
             {comment}
@@ -51,7 +51,7 @@ function CommentList({ comments, photos }) {
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
-          <Collapsible key={index} title={`კომენტარი #${index + comments?.length + 1}`} shift={false}>
+          <Collapsible key={index} title={`კომენტარი #${index + (comments ? comments.length : 0) + 1}`} shift={false}>
             <img
               key={index}
               src={urlFor(photo).url()}
@@ -94,19 +94,19 @@ export default function ProblemComponent({ problem }) {
           </div>
         )}
 
-        { hints?.length > 0 &&
+        { hints?.length > 0 || hintPhotos?.length > 0 &&
           <Collapsible title="მითითებები" shift={true}>
             <HintList hints={hints} photos={hintPhotos}/>
           </Collapsible>
         }
 
-        { comments?.length > 0 &&
+        { comments?.length > 0 || commentPhotos?.length > 0 &&
           <Collapsible title="კომენტარები" shift={true}>
             <CommentList comments={comments} photos={commentPhotos}/>
           </Collapsible>
         }
 
-        { solution &&
+        { (solution || solutionPhotos?.length > 0) &&
           <Collapsible title={`ამოხსნა`} shift={false}>
             <MathJax className={classes.mathJax}>
               {solution}
