@@ -57,7 +57,7 @@ export default function ProblemComponent({ problem }) {
           <MathJax key={statement} className={classes.mathJax}>{statement}</MathJax>
         </div>
 
-        {photos?.length > 0 && false && (
+        {photos?.length > 0 && (
           <div>
             {photos.map((photo, index) => (
               <img
