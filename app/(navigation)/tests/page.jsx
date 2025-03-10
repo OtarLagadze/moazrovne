@@ -5,9 +5,9 @@ import TestsComponent from "@/components/tests/TestsComponent";
 export const revalidate = 30;
 
 export const metadata = {
-  title: "ტესტები",
+  title: "მოაზროვნეს ოლიმპიადა",
   description:
-    "მათემატიკის, ინგლისურისა და ქართულის ტესტები მოაზროვნის ოლიმპიადიდან",
+    "მოემზადე მოაზროვნეს ოლიმპიადებისთვის",
 };
 
 async function getData() {
@@ -29,7 +29,7 @@ export default async function TestsPage() {
 
   return (
     <div>
-      <h1 className={classes.mainHeading}>ტესტები</h1>
+      <h1 className={classes.mainHeading}>მოემზადე მოაზროვნეს ოლიმპიადებისთვის</h1>
       <TestsComponent tests={tests} />
     </div>
   );

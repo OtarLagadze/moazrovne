@@ -96,6 +96,13 @@ export const problemsType = defineType({
       description: "დაამატეთ ამოხსნა",
     }),
     defineField({
+      name: "solutionPhotos",
+      title: "ამოხსნის ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ ამოხსნასთან დაკავშირებული ფოტოები",
+    }),
+    defineField({
       name: "photos",
       title: "ფოტოები",
       type: "array",

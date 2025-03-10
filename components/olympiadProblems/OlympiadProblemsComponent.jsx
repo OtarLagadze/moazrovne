@@ -61,8 +61,8 @@ export default function OlympiadProblemsComponent({ problems, currentPage }) {
       <div className={classes.testWrapper} style={{padding: '0px 10px 0px 10px'}}>
         {paginatedProblems.length === 0 && <p className={classes.noTestText}>ამ ფილტრისთვის ამოცანები არ მოიძებნა</p>}
         <Suspense fallback={<div>იტვირთება...</div>}>
-          {paginatedProblems.map((problem, i) => (
-            <ProblemComponent key={i} problem={problem} />
+          {paginatedProblems.map((problem) => (
+            <ProblemComponent key={problem.taskId} problem={problem} />
           ))}
         </Suspense>
       </div>

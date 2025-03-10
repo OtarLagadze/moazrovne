@@ -94,13 +94,13 @@ export default function ProblemComponent({ problem }) {
           </div>
         )}
 
-        { hints?.length > 0 || hintPhotos?.length > 0 &&
+        { (hints?.length > 0 || hintPhotos?.length > 0) &&
           <Collapsible title="მითითებები" shift={true}>
             <HintList hints={hints} photos={hintPhotos}/>
           </Collapsible>
         }
 
-        { comments?.length > 0 || commentPhotos?.length > 0 &&
+        { (comments?.length > 0 || commentPhotos?.length) > 0 &&
           <Collapsible title="კომენტარები" shift={true}>
             <CommentList comments={comments} photos={commentPhotos}/>
           </Collapsible>
