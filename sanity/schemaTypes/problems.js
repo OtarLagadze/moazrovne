@@ -69,6 +69,13 @@ export const problemsType = defineType({
       description: "დაამატეთ მითითებები",
     }),
     defineField({
+      name: "hintPhotos",
+      title: "მითითების ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
+    }),
+    defineField({
       name: "comments",
       title: "კომენტარები",
       type: "array",
@@ -76,11 +83,24 @@ export const problemsType = defineType({
       description: "დაამატეთ კომენტარები",
     }),
     defineField({
+      name: "commentPhotos",
+      title: "კომენტარის ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ კომენტართან დაკავშირებული ფოტოები",
+    }),
+    defineField({
+      name: "solution",
+      title: "ამოხსნა",
+      type: "text",
+      description: "დაამატეთ ამოხსნა",
+    }),
+    defineField({
       name: "photos",
       title: "ფოტოები",
       type: "array",
       of: [{ type: "image" }],
-      description: "დაამატეთ ფოტოები ამოცანასთან დაკავშირებული",
+      description: "დაამატეთ ამოცანასთან დაკავშირებული ფოტოები",
     }),
   ],
   initialValue: async () => {

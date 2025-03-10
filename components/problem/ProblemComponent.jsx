@@ -13,37 +13,61 @@ const config = {
   }
 };
 
-function HintList({ hints }) {
+function HintList({ hints, photos }) {
   return (
     <>
       {hints.map((hint, index) => (
-        <Collapsible key={index} title={`მითითება #${index + 1}`}>
+        <Collapsible key={index} title={`მითითება #${index + 1}`} shift={false}>
           <MathJax key={hint} className={classes.mathJax}>
             {hint}
           </MathJax>
         </Collapsible>
       ))}
+      {photos?.length > 0 && (
+        photos.map((photo, index) => (
+          <Collapsible key={index} title={`მითითება #${index + hints?.length + 1}`} shift={false}>
+            <img
+              key={index}
+              src={urlFor(photo).url()}
+              alt={`hint photo ${index + hints?.length + 1}`}
+              className={classes.problemImg}
+            />
+          </Collapsible>
+        ))
+      )}
     </>
   );
 }
 
-function CommentList({ comments }) {
+function CommentList({ comments, photos }) {
   return (
     <>
       {comments.map((comment, index) => (
-        <Collapsible key={index} title={`კომენტარი #${index + 1}`}>
+        <Collapsible key={index} title={`კომენტარი #${index + 1}`} shift={false}>
           <MathJax key={comment} className={classes.mathJax}>
             {comment}
           </MathJax>
         </Collapsible>
       ))}
+      {photos?.length > 0 && (
+        photos.map((photo, index) => (
+          <Collapsible key={index} title={`კომენტარი #${index + comments?.length + 1}`} shift={false}>
+            <img
+              key={index}
+              src={urlFor(photo).url()}
+              alt={`comment photo ${index + comments?.length + 1}`}
+              className={classes.problemImg}
+            />
+          </Collapsible>
+        ))
+      )}
     </>
   );
 }
 
 export default function ProblemComponent({ problem }) {
   if (!problem) return;
-  const { taskId, grade, statement, photos, hints, comments } = problem;
+  const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = problem;
   return (
     <MathJaxContext config={config}>
       <div className={classes.problemCard}>
@@ -64,21 +88,41 @@ export default function ProblemComponent({ problem }) {
               key={index}
               src={urlFor(photo).url()}
               alt={`Problem photo ${index + 1}`}
-              style={{ maxWidth: "100%", marginTop: "10px" }}
+              className={classes.problemImg}
               />
             ))}
           </div>
         )}
 
-        { hints &&
-          <Collapsible title="მითითებები" >
-            <HintList hints={hints}/>
+        { hints?.length > 0 &&
+          <Collapsible title="მითითებები" shift={true}>
+            <HintList hints={hints} photos={hintPhotos}/>
           </Collapsible>
         }
 
-        { comments &&
-          <Collapsible title="კომენტარები">
-            <CommentList comments={comments}/>
+        { comments?.length > 0 &&
+          <Collapsible title="კომენტარები" shift={true}>
+            <CommentList comments={comments} photos={commentPhotos}/>
+          </Collapsible>
+        }
+
+        { solution &&
+          <Collapsible title={`ამოხსნა`} shift={false}>
+            <MathJax className={classes.mathJax}>
+              {solution}
+            </MathJax>
+            {solutionPhotos?.length > 0 && (
+              <div>
+                {solutionPhotos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={urlFor(photo).url()}
+                    alt={`Problem photo ${index + 1}`}
+                    className={classes.problemImg}
+                  />
+                ))}
+              </div>
+            )}
           </Collapsible>
         }
       </div>

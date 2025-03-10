@@ -18,7 +18,11 @@ async function getData() {
       grade,
       tags,
       hints,
+      hintPhotos,
       comments,
+      commentPhotos,
+      solution,
+      solutionPhotos,
       photos,
       "currentSlug": slug.current
     }
