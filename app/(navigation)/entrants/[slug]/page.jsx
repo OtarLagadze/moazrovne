@@ -5,7 +5,7 @@ export const revalidate = 30;
 
 async function getData(type) {
   const query = `
-    *[_type == '${type}'] | order(${type === 'nationalExams' ? 'title' : 'date'} desc) {
+    *[_type == '${type}'] | order(title desc) {
       title,
       "file": ${type}.asset->url
     }
