@@ -2,14 +2,14 @@ import { client } from "@/app/libs/sanity";
 import FilterableList from "@/components/filterableList/FilterableList";
 import ProblemComponent from "@/components/problem/ProblemComponent";
 import HeaderComponent from "@/components/ui/header/HeaderComponent";
-import gradeOptions from "@/data/filterOptions/gradeOptions.json"
-import mathSubfields from "@/data/filterOptions/mathSubfields.json"
+import gradeOptions from "@/data/filterOptions/gradeOptions.json";
+import mathSubfields from "@/data/filterOptions/mathSubfields.json";
 
 export const revalidate = 30;
 
 export const metadata = {
   title: "საერთაშორისო ოლიმპიადები",
-  description: "მოემზადე მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის",
+  description: "მოემზადე მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის. მათემატიკის საერთაშორისო და საოლიმპიადო ამოცანები",
 };
 
 async function getData() {

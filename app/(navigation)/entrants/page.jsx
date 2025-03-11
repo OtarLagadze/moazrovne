@@ -32,7 +32,7 @@ export default async function EntrantsPage() {
   return (
     <>
       <HeaderComponent text={'აბიტურიენტის გვერდი'}/>
-      <div className={classes.galleryCardWrapper}>
+      <div className={classes.cardsWrapper}>
         {cardData.map((card, index) => (
           <Link key={index} href={card.link} className={classes.card}>
             {card.text}

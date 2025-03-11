@@ -18,27 +18,32 @@ export const testsType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'grade',
-      title: 'აირჩიეთ კლასი',
-      type: 'string',
-      options: {
-        list: [
-          {title: '1', value: '1'},
-          {title: '2', value: '2'},
-          {title: '3', value: '3'},
-          {title: '4', value: '4'},
-          {title: '5', value: '5'},
-          {title: '6', value: '6'},
-          {title: '7', value: '7'},
-          {title: '8', value: '8'},
-          {title: '9', value: '9'},
-          {title: '10', value: '10'},
-          {title: '11', value: '11'},
-          {title: '12', value: '12'},
-          {title: 'გაერთიანებული', value: 'union'},
-        ],
-      },
-      validation: (rule) => rule.required(),
+      name: "grade",
+      title: "კლასის დიაპაზონი",
+      type: "object",
+      fields: [
+        defineField({
+          name: "from",
+          type: "number",
+          title: "დან (კლასი)",
+          validation: (rule) => rule.required().min(1).max(12),
+        }),
+        defineField({
+          name: "to",
+          type: "number",
+          title: "მდე (კლასი)",
+          validation: (rule) =>
+            rule
+              .required()
+              .min(1)
+              .max(12)
+              .custom((to, context) =>
+                to >= context.parent.from
+                  ? true
+                  : "მინიმალური კლასი უნდა იყოს ნაკლები ან ტოლი მაქსიმალური კლასის"
+              ),
+        }),
+      ],
     }),
     defineField({
       name: 'subject',

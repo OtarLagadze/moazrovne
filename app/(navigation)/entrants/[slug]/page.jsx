@@ -1,5 +1,7 @@
 import { client } from "@/app/libs/sanity";
-import classes from "@/app/(navigation)/tests/page.module.css"
+import HeaderComponent from "@/components/ui/header/HeaderComponent";
+import TestLink from "@/components/testLink/TestLink";
+import FilterableList from "@/components/filterableList/FilterableList";
 
 export const revalidate = 30;
 
@@ -15,28 +17,18 @@ async function getData(type) {
   return data;
 }
 
-export default async function EntrantsSlug({ params }) {
+export default async function EntrantsSlug({ params, searchParams }) {
   const data = await getData(params.slug);
 
   return (
     <>
-      <h1 className={classes.mainHeading}>{params.slug === 'nationalExams' ? 'ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით' : 'სავარჯიშო ტესტები პასუხებით'}</h1>
-      <div className={classes.testWrapper}>
-        {data?.map((test, i) => (
-          <a
-            href={test.file}
-            key={test.file + i}
-            className={classes.test}
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-            {test.title}
-            <div className={classes.testLabel}>
-              <img src='/svg/test.svg' alt="test icon" style={{width: "30px", height: "30px"}}/>
-            </div>
-          </a>
-        ))}
-      </div>
+      <HeaderComponent text={params.slug === 'nationalExams' ? 'ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით' : 'სავარჯიშო ტესტები პასუხებით'}/>
+      <FilterableList 
+        searchParams={searchParams} 
+        data={data}
+        itemsPerPage={params.slug === 'nationalExams' ? 50 : 20}
+        RenderComponent={TestLink}
+      />
     </>
   );
 }

@@ -11,7 +11,7 @@ const Filter = dynamic(() => import("@/components/ui/filter/Filter"), { ssr: fal
 export default function FilterableList({ searchParams, data, itemsPerPage, filters, RenderComponent }) {
   const router = useRouter();
   const [selectedFilters, setSelectedFilters] = useState({});
-
+  
   const currentPage = searchParams.page && Number(searchParams.page) > 0 ? Number(searchParams.page) : 1;
 
   const handleFilterChange = (key) => (value) => {
@@ -22,15 +22,16 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
   };
 
   const filteredData = useMemo(() => {
-    return data.filter((problem) => {
-      return filters.every(({ key }) => {
+    if (!filters) return data;
+    return data.filter((item) => {
+      return filters?.every(({ key }) => {
         const selectedValues = (selectedFilters[key] ?? []).map((item) => item.value);
         if (selectedValues.length === 0) return true;
 
         if (key === "grade") {
-          return selectedValues.some((grade) => problem.grade.from <= grade && grade <= problem.grade.to);
+          return selectedValues.some((grade) => item.grade.from <= grade && grade <= item.grade.to);
         }
-        return selectedValues.some((value) => problem.tags.includes(value));
+        return selectedValues.some((value) => item.tags.includes(value));
       });
     });
   }, [data, selectedFilters, filters]);
@@ -40,7 +41,7 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
   return (
     <>
       <div className={classes.filterWrapper}>
-        {filters.map(({ key, options, placeholder }) => (
+        {filters?.map(({ key, options, placeholder }) => (
           <Filter key={key} options={options} placeholder={placeholder} onChange={handleFilterChange(key)} />
         ))}
       </div>
