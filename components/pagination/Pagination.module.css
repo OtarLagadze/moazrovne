@@ -1,5 +1,5 @@
 .pagination {
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 }
@@ -61,7 +61,7 @@
 }
 
 .active {
-  border: 1px solid #000;
+  border: 1px solid var(--footer-background-color);
 }
 
 @media (max-width: 560px) {

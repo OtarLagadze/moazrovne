@@ -1,6 +1,7 @@
 import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
 import TestsComponent from "@/components/tests/TestsComponent";
+import HeaderComponent from "@/components/ui/header/HeaderComponent";
 
 export const revalidate = 30;
 
@@ -28,9 +29,9 @@ export default async function TestsPage() {
   const tests = await getData();
 
   return (
-    <div>
-      <h1 className={classes.mainHeading}>მოემზადე მოაზროვნეს ოლიმპიადებისთვის</h1>
+    <>
+      <HeaderComponent text={'მოემზადე მოაზროვნეს ოლიმპიადებისთვის'}/>
       <TestsComponent tests={tests} />
-    </div>
+    </>
   );
 }

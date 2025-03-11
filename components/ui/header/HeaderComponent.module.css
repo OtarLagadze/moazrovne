@@ -1,0 +1,9 @@
+.mainHeading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-light-color);
+  height: 130px;
+  font-size: 1.7em;
+  font-weight: bold;
+}

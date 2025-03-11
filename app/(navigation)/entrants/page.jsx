@@ -1,6 +1,7 @@
 import Link from "next/link";
-import classes from "./EntrantsPage.module.css";
+import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
+import HeaderComponent from "@/components/ui/header/HeaderComponent";
 
 export const revalidate = 30;
 
@@ -30,7 +31,7 @@ export default async function EntrantsPage() {
 
   return (
     <>
-      <h1 className={classes.mainHeading}>აბიტურიენტის გვერდი</h1>
+      <HeaderComponent text={'აბიტურიენტის გვერდი'}/>
       <div className={classes.galleryCardWrapper}>
         {cardData.map((card, index) => (
           <Link key={index} href={card.link} className={classes.card}>

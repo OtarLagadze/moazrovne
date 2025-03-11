@@ -1,7 +1,9 @@
-import OlympiadProblemsComponent from "@/components/olympiadProblems/OlympiadProblemsComponent";
-import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
-import { OlympiadProblemsPagination } from "@/components/olympiadProblems/OlympiadProblemsPagination";
+import FilterableList from "@/components/filterableList/FilterableList";
+import ProblemComponent from "@/components/problem/ProblemComponent";
+import HeaderComponent from "@/components/ui/header/HeaderComponent";
+import gradeOptions from "@/data/filterOptions/gradeOptions.json"
+import mathSubfields from "@/data/filterOptions/mathSubfields.json"
 
 export const revalidate = 30;
 
@@ -31,15 +33,23 @@ async function getData() {
 }
 
 export default async function OlympiadProblemsPage({ searchParams }) {
-  const currentPage = searchParams.page && Number(searchParams.page) > 0 ? Number(searchParams.page) : 1;
   const problems = await getData();
+  
+  const filters = [
+    { key: "grade", options: gradeOptions, placeholder: "აირჩიეთ კლასი" },
+    { key: "subfield", options: mathSubfields, placeholder: "აირჩიეთ განხრა" }
+  ];
 
   return (
     <>
-      <h1 className={classes.mainHeading}>მოემზადე  მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის</h1>
-      <OlympiadProblemsComponent problems={problems} currentPage={currentPage} />
-      <OlympiadProblemsPagination activePage={currentPage} totalItems={problems.length} />
+      <HeaderComponent text={'მოემზადე  მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის'}/>
+      <FilterableList 
+        searchParams={searchParams} 
+        data={problems}
+        itemsPerPage={5}
+        filters={filters}
+        RenderComponent={ProblemComponent}
+      />
     </>
   );
 }
-

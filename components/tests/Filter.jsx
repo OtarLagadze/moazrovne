@@ -1,9 +1,6 @@
 "use client";
 
 import Select from "react-select";
-import makeAnimated from "react-select/animated";
-
-const animatedComponents = makeAnimated();
 
 export default function Filter({
   options,
@@ -13,8 +10,7 @@ export default function Filter({
 }) {
   return (
     <Select
-      closeMenuOnSelect={false}
-      components={animatedComponents}
+      // closeMenuOnSelect={false}
       onChange={onChange}
       defaultValue={defaultValue}
       isMulti

@@ -1,8 +1,12 @@
-import classes from "./ProblemComponent.module.css";
-import Collapsible from "../ui/collapsible/Collapsible";
-import { urlFor } from "@/app/libs/sanity";
+"use client"
 
-import { MathJax, MathJaxContext } from 'better-react-mathjax'
+import classes from "./ProblemComponent.module.css";
+import dynamic from "next/dynamic";
+const Collapsible = dynamic(() => import("@/components/ui/collapsible/Collapsible"), { ssr: false });
+const MathJax = dynamic(() => import('better-react-mathjax').then(mod => mod.MathJax), { ssr: false });
+const MathJaxContext = dynamic(() => import('better-react-mathjax').then(mod => mod.MathJaxContext), { ssr: false });
+
+import { urlFor } from "@/app/libs/sanity";
 
 const config = {
   loader: { load: ["input/tex", "output/svg"] },
@@ -65,9 +69,9 @@ function CommentList({ comments, photos }) {
   );
 }
 
-export default function ProblemComponent({ problem }) {
-  if (!problem) return;
-  const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = problem;
+export default function ProblemComponent({ data }) {
+  if (!data) return;
+  const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
   return (
     <MathJaxContext config={config}>
       <div className={classes.problemCard}>
@@ -82,16 +86,14 @@ export default function ProblemComponent({ problem }) {
         </div>
 
         {photos?.length > 0 && (
-          <div>
-            {photos.map((photo, index) => (
-              <img
-              key={index}
-              src={urlFor(photo).url()}
-              alt={`Problem photo ${index + 1}`}
-              className={classes.problemImg}
-              />
-            ))}
-          </div>
+          photos.map((photo, index) => (
+            <img
+            key={index}
+            src={urlFor(photo).url()}
+            alt={`Problem photo ${index + 1}`}
+            className={classes.problemImg}
+            />
+          ))
         )}
 
         { (hints?.length > 0 || hintPhotos?.length > 0) &&
