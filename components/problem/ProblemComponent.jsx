@@ -108,6 +108,7 @@ export default function ProblemComponent({ data }) {
               height={0}
               layout="responsive"
               className={classes.problemImg}
+              priority
             />
           ))
         )}
