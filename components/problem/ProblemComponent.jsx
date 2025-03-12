@@ -114,19 +114,19 @@ export default function ProblemComponent({ data }) {
         )}
 
         { (hints?.length > 0 || hintPhotos?.length > 0) &&
-          <Collapsible title="მითითებები" shift={true}>
+          <Collapsible key={`hints ${taskId}`} title="მითითებები" shift={true}>
             <HintList hints={hints} photos={hintPhotos}/>
           </Collapsible>
         }
 
         { (comments?.length > 0 || commentPhotos?.length) > 0 &&
-          <Collapsible title="კომენტარები" shift={true}>
+          <Collapsible key={`comments ${taskId}`} title="კომენტარები" shift={true}>
             <CommentList comments={comments} photos={commentPhotos}/>
           </Collapsible>
         }
 
         { (solution || solutionPhotos?.length > 0) &&
-          <Collapsible title={`ამოხსნა`} shift={false}>
+          <Collapsible key={`solution ${taskId}`} title={`ამოხსნა`} shift={false}>
             <Math render={solution}/>
             {solutionPhotos?.length > 0 && (
               solutionPhotos.map((photo, index) => (

@@ -22,11 +22,12 @@
 
 .problemStatement {
   border-radius: 5px;
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
 }
 
 .mathJax {
   overflow-x: auto;
   overflow-y: hidden;
+  font-size: 1.4rem;
   padding: 10px;
 }
