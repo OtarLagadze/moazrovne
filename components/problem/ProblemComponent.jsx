@@ -85,7 +85,7 @@ export default function ProblemComponent({ data }) {
   if (!data) return;
   const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
   return (
-    <MathJaxContext config={config}>
+    <MathJaxContext config={config} key={searchParams.page + data.taskId}>
       <div className={classes.problemCard}>
         <div className={classes.problemHeader}>
           <p>№{taskId} ამოცანა</p>
