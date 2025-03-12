@@ -19,7 +19,7 @@
     "better-react-mathjax": "^2.1.0",
     "gray-matter": "^4.0.3",
     "next": "^15.2.2",
-    "next-sanity": "^9.3.0",
+    "next-sanity": "^9.9.0",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-dom": "^18",
