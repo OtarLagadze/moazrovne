@@ -1,9 +1,9 @@
 import { client } from "@/app/libs/sanity";
-import FilterableList from "@/components/filterableList/FilterableList";
-import ProblemComponent from "@/components/problem/ProblemComponent";
 import HeaderComponent from "@/components/ui/header/HeaderComponent";
 import gradeOptions from "@/data/filterOptions/gradeOptions.json";
 import mathSubfields from "@/data/filterOptions/mathSubfields.json";
+import FilterableList from "@/components/filterableList/FilterableList";
+import ProblemComponent from "@/components/problem/ProblemComponent";
 
 export const revalidate = 30;
 
@@ -15,17 +15,7 @@ export const metadata = {
 async function getData() {
   const query = `
     *[_type == 'problems'] | order(taskId desc) {
-      taskId,
-      statement,
-      grade,
-      tags,
-      hints,
-      hintPhotos,
-      comments,
-      commentPhotos,
-      solution,
-      solutionPhotos,
-      photos,
+      taskId, statement, grade, tags, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos, photos,
       "currentSlug": slug.current
     }
   `;

@@ -1,12 +1,14 @@
 "use client"
 
+import { urlFor } from "@/app/libs/sanity";
+import Image from "next/image";
+import { Suspense } from "react";
 import classes from "./ProblemComponent.module.css";
+
 import dynamic from "next/dynamic";
 const Collapsible = dynamic(() => import("@/components/ui/collapsible/Collapsible"), { ssr: false });
 const MathJax = dynamic(() => import('better-react-mathjax').then(mod => mod.MathJax), { ssr: false });
 const MathJaxContext = dynamic(() => import('better-react-mathjax').then(mod => mod.MathJaxContext), { ssr: false });
-
-import { urlFor } from "@/app/libs/sanity";
 
 const config = {
   loader: { load: ["input/tex", "output/svg"] },
@@ -17,23 +19,33 @@ const config = {
   }
 };
 
+function Math({ render }) {
+  return (
+    <Suspense fallback={<div>იტვირთება...</div>}>
+      <MathJax className={classes.mathJax}>
+        { render }
+      </MathJax>
+    </Suspense>
+  )
+}
+
 function HintList({ hints, photos }) {
   return (
     <>
       {hints?.map((hint, index) => (
         <Collapsible key={index} title={`მითითება #${index + 1}`} shift={false}>
-          <MathJax key={hint} className={classes.mathJax}>
-            {hint}
-          </MathJax>
+          <Math render={hint}/>
         </Collapsible>
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
           <Collapsible key={index} title={`მითითება #${index + (hints ? hints.length : 0) + 1}`} shift={false}>
-            <img
-              key={index}
+            <Image
               src={urlFor(photo).url()}
-              alt={`hint photo ${index + hints?.length + 1}`}
+              alt={`hint photo`}
+              width={0}
+              height={0}
+              layout="responsive"
               className={classes.problemImg}
             />
           </Collapsible>
@@ -48,18 +60,18 @@ function CommentList({ comments, photos }) {
     <>
       {comments?.map((comment, index) => (
         <Collapsible key={index} title={`კომენტარი #${index + 1}`} shift={false}>
-          <MathJax key={comment} className={classes.mathJax}>
-            {comment}
-          </MathJax>
+          <Math render={comment}/>
         </Collapsible>
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
           <Collapsible key={index} title={`კომენტარი #${index + (comments ? comments.length : 0) + 1}`} shift={false}>
-            <img
-              key={index}
+            <Image
               src={urlFor(photo).url()}
-              alt={`comment photo ${index + comments?.length + 1}`}
+              alt={`comment photo`}
+              width={0}
+              height={0}
+              layout="responsive"
               className={classes.problemImg}
             />
           </Collapsible>
@@ -82,16 +94,19 @@ export default function ProblemComponent({ data }) {
           }
         </div>
         <div className={classes.problemStatement}>
-          <MathJax key={statement} className={classes.mathJax}>{statement}</MathJax>
+          <Math render={statement}/>
         </div>
 
         {photos?.length > 0 && (
           photos.map((photo, index) => (
-            <img
-            key={index}
-            src={urlFor(photo).url()}
-            alt={`Problem photo ${index + 1}`}
-            className={classes.problemImg}
+            <Image
+              src={urlFor(photo).url()}
+              key={`Problem photo ${index + 1}`}
+              alt={`Problem photo`}
+              width={0}
+              height={0}
+              layout="responsive"
+              className={classes.problemImg}
             />
           ))
         )}
@@ -110,20 +125,19 @@ export default function ProblemComponent({ data }) {
 
         { (solution || solutionPhotos?.length > 0) &&
           <Collapsible title={`ამოხსნა`} shift={false}>
-            <MathJax className={classes.mathJax}>
-              {solution}
-            </MathJax>
+            <Math render={solution}/>
             {solutionPhotos?.length > 0 && (
-              <div>
-                {solutionPhotos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={urlFor(photo).url()}
-                    alt={`Problem photo ${index + 1}`}
-                    className={classes.problemImg}
-                  />
-                ))}
-              </div>
+              solutionPhotos.map((photo, index) => (
+                <Image
+                  src={urlFor(photo).url()}
+                  key={`Solution photo ${index + 1}`}
+                  alt={`Solution photo`}
+                  width={0}
+                  height={0}
+                  layout="responsive"
+                  className={classes.problemImg}
+                />
+              ))
             )}
           </Collapsible>
         }

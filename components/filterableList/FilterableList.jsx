@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-import classes from "@/components/filterableList/FilterableList.module.css";
 import { Pagination } from "@/components/pagination/Pagination";
+import classes from "@/components/filterableList/FilterableList.module.css";
 
+import dynamic from "next/dynamic";
 const Filter = dynamic(() => import("@/components/ui/filter/Filter"), { ssr: false });
 
 export default function FilterableList({ searchParams, data, itemsPerPage, filters, RenderComponent }) {
@@ -16,9 +16,12 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
 
   const handleFilterChange = (key) => (value) => {
     setSelectedFilters((prev) => ({ ...prev, [key]: value }));
-    const params = new URLSearchParams(window.location.search);
-    params.set("page", "1");
-    router.push(`?${params.toString()}`, { scroll: false });
+    
+    requestAnimationFrame(() => {
+      const params = new URLSearchParams(window.location.search);
+      params.set("page", "1");
+      router.push(`?${params.toString()}`, { scroll: true });
+    });
   };
 
   const filteredData = useMemo(() => {
