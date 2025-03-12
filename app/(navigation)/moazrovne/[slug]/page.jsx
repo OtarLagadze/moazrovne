@@ -34,7 +34,9 @@ async function getData(slug) {
 }
 
 export default async function MoazrovneSlug({ params, searchParams }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
+  const data = await getData(slug);
 
   const filters = [
     { key: "grade", options: gradeOptions, placeholder: "აირჩიეთ კლასი" }
@@ -42,13 +44,13 @@ export default async function MoazrovneSlug({ params, searchParams }) {
 
   return (
     <>
-      <HeaderComponent text={params.slug === 'problemset' ? 'სავარჯიშო ამოცანები' : 'სავარჯიშო ტესტები'}/>
+      <HeaderComponent text={slug === 'problemset' ? 'სავარჯიშო ამოცანები' : 'სავარჯიშო ტესტები'}/>
       <FilterableList 
-        searchParams={searchParams} 
+        searchParams={resolvedSearchParams} 
         data={data}
-        itemsPerPage={params.slug === 'problemset' ? 5 : 20}
+        itemsPerPage={slug === 'problemset' ? 5 : 20}
         filters={filters}
-        RenderComponent={params.slug === 'problemset' ? ProblemComponent : TestLink}
+        RenderComponent={slug === 'problemset' ? ProblemComponent : TestLink}
       />
     </>
   );

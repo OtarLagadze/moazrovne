@@ -24,7 +24,8 @@ async function getData() {
 
 export default async function OlympiadProblemsPage({ searchParams }) {
   const problems = await getData();
-  
+  const resolvedSearchParams = await searchParams;
+
   const filters = [
     { key: "grade", options: gradeOptions, placeholder: "აირჩიეთ კლასი" },
     { key: "subfield", options: mathSubfields, placeholder: "აირჩიეთ განხრა" }
@@ -34,7 +35,7 @@ export default async function OlympiadProblemsPage({ searchParams }) {
     <>
       <HeaderComponent text={'მოემზადე  მათემატიკის ეროვნული და საერთაშორისო ოლიმპიადებისთვის'}/>
       <FilterableList 
-        searchParams={searchParams} 
+        searchParams={resolvedSearchParams} 
         data={problems}
         itemsPerPage={5}
         filters={filters}

@@ -93,10 +93,11 @@ export default function ProblemComponent({ data }) {
             <p>{grade.to} კლასი</p> : <p>{grade.from}-{grade.to} კლასი</p>
           }
         </div>
-        <div className={classes.problemStatement}>
-          <Math render={statement}/>
-        </div>
-
+        { statement &&
+          <div className={classes.problemStatement}>
+            <Math render={statement}/>
+          </div>
+        }
         {photos?.length > 0 && (
           photos.map((photo, index) => (
             <Image

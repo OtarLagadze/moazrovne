@@ -3,10 +3,11 @@ import Link from "next/link";
 
 export function Pagination({ activePage, totalItems, itemsPerPage }) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startPaginationIndex = Math.floor((activePage - 1) / itemsPerPage) * itemsPerPage + 1;
 
-  let currentPaginationNumbers = Array.from({ length: 5 }, (_, i) => startPaginationIndex + i).filter((num) => num <= totalPages);
-
+  const startPage = Math.max(1, activePage - 2);
+  const endPage = Math.min(totalPages, activePage + 2);
+  const currentPaginationNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  
   return (
     <div className={classes.pagination}>
       <ul className={classes.paginationUl}>
