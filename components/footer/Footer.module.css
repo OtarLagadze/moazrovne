@@ -2,6 +2,13 @@
   margin-top: 200px;
   background-color: var(--footer-background-color);
   position: relative;
+  margin-left: 85px;
+}
+
+@media (max-width: 1000px) {
+  .footer {
+    margin-left: 0px;
+  }
 }
 
 .footerWrapper {

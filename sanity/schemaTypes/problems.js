@@ -59,6 +59,7 @@ export const problemsType = defineType({
               ),
         }),
       ],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "tags",
@@ -67,6 +68,7 @@ export const problemsType = defineType({
       of: [{ type: "string" }],
       options: { layout: "tags" },
       description: 'მაგალითად: "ალგებრა", "რიცხვთა თეორია", "კომბინატორიკა"',
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "hints",

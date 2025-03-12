@@ -14,6 +14,7 @@ export function Pagination({ activePage, totalItems, itemsPerPage }) {
         {activePage > 1 ? (
           <Link
             href={`?page=${activePage - 1}`}
+            onClick={() => window.scrollTo(0, 0)}
             className={`${classes.paginationLi} ${classes.previous}`}
           >
             <svg
@@ -56,6 +57,7 @@ export function Pagination({ activePage, totalItems, itemsPerPage }) {
         {currentPaginationNumbers.map((el) =>
           <Link
             href={`?page=${el}`}
+            onClick={() => window.scrollTo(0, 0)}
             key={el}
             className={`${classes.paginationLi} ${
               +activePage === +el ? classes.active : ""
@@ -67,6 +69,7 @@ export function Pagination({ activePage, totalItems, itemsPerPage }) {
         {activePage < totalPages ? (
           <Link
             href={`?page=${activePage + 1}`}
+            onClick={() => window.scrollTo(0, 0)}
             className={`${classes.paginationLi} ${classes.next}`}
           >
             შემდეგი

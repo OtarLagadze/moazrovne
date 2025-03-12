@@ -16,12 +16,10 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
 
   const handleFilterChange = (key) => (value) => {
     setSelectedFilters((prev) => ({ ...prev, [key]: value }));
-    
-    requestAnimationFrame(() => {
-      const params = new URLSearchParams(window.location.search);
-      params.set("page", "1");
-      router.push(`?${params.toString()}`, { scroll: true });
-    });
+
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", "1");
+    router.push(`?${params.toString()}`, { scroll: true });
   };
 
   const filteredData = useMemo(() => {
@@ -54,8 +52,8 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
           (
             <p className={classes.noItemText}>მონაცემები არ მოიძებნა</p>
           ) : (
-            paginatedData.map((item, index) => (
-              <RenderComponent key={'RenderComponent' + index} index={index} data={item}/>
+            paginatedData?.map((item, index) => (
+              <RenderComponent key={`RenderComponent-${currentPage}-${JSON.stringify(selectedFilters)}-${index}`} data={item}/>
             ))
           )
         }
