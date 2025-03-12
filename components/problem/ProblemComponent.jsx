@@ -81,11 +81,11 @@ function CommentList({ comments, photos }) {
   );
 }
 
-export default function ProblemComponent({ data }) {
+export default function ProblemComponent({ data, index }) {
   if (!data) return;
   const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
   return (
-    <MathJaxContext config={config} key={searchParams.page + data.taskId}>
+    <MathJaxContext config={config} key={index}>
       <div className={classes.problemCard}>
         <div className={classes.problemHeader}>
           <p>№{taskId} ამოცანა</p>

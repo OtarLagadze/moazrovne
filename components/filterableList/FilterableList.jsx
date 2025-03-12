@@ -55,7 +55,7 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
             <p className={classes.noItemText}>მონაცემები არ მოიძებნა</p>
           ) : (
             paginatedData.map((item, index) => (
-              <RenderComponent key={'RenderComponent' + index} data={item}/>
+              <RenderComponent key={'RenderComponent' + index} index={index} data={item}/>
             ))
           )
         }
