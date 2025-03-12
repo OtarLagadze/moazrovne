@@ -76,7 +76,7 @@ export default function ProblemComponent({ data }) {
     <MathJaxContext config={config}>
       <div className={classes.problemCard}>
         <div className={classes.problemHeader}>
-          <p>#{taskId} ამოცანა</p>
+          <p>№{taskId} ამოცანა</p>
           {grade.from === grade.to ? 
             <p>{grade.to} კლასი</p> : <p>{grade.from}-{grade.to} კლასი</p>
           }

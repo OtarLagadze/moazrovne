@@ -10,7 +10,7 @@ export const revalidate = 30;
 async function getData(slug) {
   const query = (slug === 'problemset' ?
     `
-      *[_type == 'problems' && "მოაზროვნეს" in tags[]] | order(taskId desc) {
+      *[_type == 'moazrovneProblems'] | order(taskId desc) {
         taskId,
         statement,
         grade,

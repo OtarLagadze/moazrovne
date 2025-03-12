@@ -14,7 +14,7 @@ export const metadata = {
 
 async function getData() {
   const query = `
-    *[_type == 'problems' && "საოლიმპიადო" in tags[]] | order(taskId desc) {
+    *[_type == 'problems'] | order(taskId desc) {
       taskId,
       statement,
       grade,

@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity';
 
-export const problemsType = defineType({
-  name: "problems",
-  title: "საოლიმპიადო ამოცანები",
+export const moazrovneProblemsType = defineType({
+  name: "moazrovneProblems",
+  title: "მოაზროვნეს ამოცანები",
   type: "document",
   fields: [
     defineField({
@@ -16,14 +16,13 @@ export const problemsType = defineType({
       type: "number",
       title: "ამოცანის ID",
       description: "ეს ID ავტომატურად გენერირდება",
-      readOnly: true,
+      readOnly: true
     }),
     defineField({
       name: "statement",
       type: "text",
       title: "ამოცანის პირობა",
       description: "აქ დაწერეთ ამოცანის პირობა",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "photos",
@@ -61,42 +60,6 @@ export const problemsType = defineType({
       ],
     }),
     defineField({
-      name: "tags",
-      title: "თეგები",
-      type: "array",
-      of: [{ type: "string" }],
-      options: { layout: "tags" },
-      description: 'მაგალითად: "ალგებრა", "რიცხვთა თეორია", "კომბინატორიკა"',
-    }),
-    defineField({
-      name: "hints",
-      title: "მითითებები",
-      type: "array",
-      of: [{ type: "text" }],
-      description: "დაამატეთ მითითებები",
-    }),
-    defineField({
-      name: "hintPhotos",
-      title: "მითითების ფოტოები",
-      type: "array",
-      of: [{ type: "image" }],
-      description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
-    }),
-    defineField({
-      name: "comments",
-      title: "კომენტარები",
-      type: "array",
-      of: [{ type: "text" }],
-      description: "დაამატეთ კომენტარები",
-    }),
-    defineField({
-      name: "commentPhotos",
-      title: "კომენტარის ფოტოები",
-      type: "array",
-      of: [{ type: "image" }],
-      description: "დაამატეთ კომენტართან დაკავშირებული ფოტოები",
-    }),
-    defineField({
       name: "solution",
       title: "ამოხსნა",
       type: "text",
@@ -111,14 +74,82 @@ export const problemsType = defineType({
     }),
   ],
   initialValue: async () => {
-    const query = `count(*[_type == "problems"])`;
+    const query = `count(*[_type == "moazrovneProblems"])`;
     const lastCount = await fetchCountFromSanity(query);
     return {
-      title: `${lastCount + 1}. საოლიმპიადო ამოცანა`,
+      title: `${lastCount + 1}. მოაზროვნეს ამოცანა`,
       taskId: lastCount + 1,
     };
   },
 });
+
+export const testsType = defineType({
+  name: 'tests',
+  title: 'მოაზროვნეს ტესტები',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'title',
+      type: 'string',
+      title: 'სათაური',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'date',
+      type: 'date',
+      title: 'თარიღი',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "grade",
+      title: "კლასის დიაპაზონი",
+      type: "object",
+      fields: [
+        defineField({
+          name: "from",
+          type: "number",
+          title: "დან (კლასი)",
+          validation: (rule) => rule.required().min(1).max(12),
+        }),
+        defineField({
+          name: "to",
+          type: "number",
+          title: "მდე (კლასი)",
+          validation: (rule) =>
+            rule
+              .required()
+              .min(1)
+              .max(12)
+              .custom((to, context) =>
+                to >= context.parent.from
+                  ? true
+                  : "მინიმალური კლასი უნდა იყოს ნაკლები ან ტოლი მაქსიმალური კლასის"
+              ),
+        }),
+      ],
+    }),
+    defineField({
+      name: 'subject',
+      title: 'აირჩიეთ საგანი',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'მათემატიკა', value: 'math'},
+          {title: 'ქართული', value: 'georgian'},
+          {title: 'ინგლისური', value: 'english'},
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'tests',
+      type: 'file',
+      title: 'ტესტი',
+      description: 'აქ ატვირთეთ ტესტის ფაილი',
+      validation: (rule) => rule.required(),
+    }),
+  ],
+})
 
 async function fetchCountFromSanity(query) {
   // const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
