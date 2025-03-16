@@ -4,6 +4,22 @@
   --secondary-light-color: #1f293d;
   --background-light-color: #D0E8F2;
   --footer-background-color: #1B4965;
+
+  --easy-header-bg: #4B97C9;
+  --easy-card-bg: #bbdceb;
+  --easy-collapsible-bg: #4B97C9;
+
+  --medium-header-bg: #4bc966;
+  --medium-card-bg: #B8E8B3;
+  --medium-collapsible-bg: #4bc966;
+
+  --hard-header-bg: #e75064;
+  --hard-card-bg: #e8b3b3;
+  --hard-collapsible-bg: #e75064;
+
+  --extra-hard-header-bg: #FF9800;
+  --extra-hard-card-bg: #F8E47C;
+  --extra-hard-collapsible-bg: #FF9800;
 }
 
 *,

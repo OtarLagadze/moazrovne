@@ -29,9 +29,8 @@ export default function FilterableList({ searchParams, data, itemsPerPage, filte
         const selectedValues = (selectedFilters[key] ?? []).map((item) => item.value);
         if (selectedValues.length === 0) return true;
 
-        if (key === "grade") {
-          return selectedValues.some((grade) => item.grade.from <= grade && grade <= item.grade.to);
-        }
+        if (key === "grade") return selectedValues.some((grade) => item.grade.from <= grade && grade <= item.grade.to);
+        if (key === "difficulty") return selectedValues.some((value) => item.difficulty === value);
         return selectedValues.some((value) => item.tags.includes(value));
       });
     });

@@ -19,20 +19,6 @@ export const problemsType = defineType({
       readOnly: true,
     }),
     defineField({
-      name: "statement",
-      type: "text",
-      title: "ამოცანის პირობა",
-      description: "აქ დაწერეთ ამოცანის პირობა",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "photos",
-      title: "ფოტოები",
-      type: "array",
-      of: [{ type: "image" }],
-      description: "დაამატეთ ამოცანასთან დაკავშირებული ფოტოები",
-    }),
-    defineField({
       name: "grade",
       title: "კლასის დიაპაზონი",
       type: "object",
@@ -60,6 +46,36 @@ export const problemsType = defineType({
         }),
       ],
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "difficulty",
+      type: "number",
+      title: "ამოცანის სირთულე",
+      description: "აირჩიეთ ამოცანის სირთულე",
+      options: {
+        list: [
+          { title: "მარტივი", value: 1 },
+          { title: "საშუალო", value: 2 },
+          { title: "რთული", value: 3 },
+          { title: "ძალიან რთული", value: 4 },
+        ],
+        layout: "dropdown"
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "statement",
+      type: "text",
+      title: "ამოცანის პირობა",
+      description: "აქ დაწერეთ ამოცანის პირობა",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "photos",
+      title: "ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ ამოცანასთან დაკავშირებული ფოტოები",
     }),
     defineField({
       name: "tags",

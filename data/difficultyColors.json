@@ -1,0 +1,22 @@
+{
+  "1": {
+    "card": "var(--easy-card-bg)",
+    "header": "var(--easy-header-bg)",
+    "collapsible": "var(--easy-collapsible-bg)"
+  },
+  "2": {
+    "card": "var(--medium-card-bg)",
+    "header": "var(--medium-header-bg)",
+    "collapsible": "var(--medium-collapsible-bg)"
+  },
+  "3": {
+    "card": "var(--hard-card-bg)",
+    "header": "var(--hard-header-bg)",
+    "collapsible": "var(--hard-collapsible-bg)"
+  },
+  "4": {
+    "card": "var(--extra-hard-card-bg)",
+    "header": "var(--extra-hard-header-bg)",
+    "collapsible": "var(--extra-hard-collapsible-bg)"
+  }
+}

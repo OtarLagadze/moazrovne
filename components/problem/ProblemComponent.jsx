@@ -1,9 +1,11 @@
 "use client"
 
 import { urlFor } from "@/app/libs/sanity";
-import Image from "next/image";
 import { Suspense } from "react";
+import Image from "next/image";
 import classes from "./ProblemComponent.module.css";
+import difficultyColors from "@/data/difficultyColors.json";
+import difficultyOptions from "@/data/filterOptions/difficultyOptions";
 
 import dynamic from "next/dynamic";
 const Collapsible = dynamic(() => import("@/components/ui/collapsible/Collapsible"), { ssr: false });
@@ -81,14 +83,19 @@ function CommentList({ comments, photos }) {
   );
 }
 
+function getDifficultyStyles(difficulty) {
+  return difficultyColors[difficulty] || '';
+}
+
 export default function ProblemComponent({ data, index }) {
   if (!data) return;
-  const { taskId, grade, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
+  const { taskId, grade, difficulty, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
+  const { card, header, collapsible } = getDifficultyStyles(difficulty);
   return (
     <MathJaxContext config={config} key={index}>
-      <div className={classes.problemCard}>
-        <div className={classes.problemHeader}>
-          <p>№{taskId} ამოცანა</p>
+      <div className={classes.problemCard} style={{ backgroundColor: card }}>
+        <div className={classes.problemHeader} style={{ backgroundColor: header }}>
+          <p>№{taskId} {`${difficulty ? difficultyOptions[difficulty - 1].label : ''}`}</p>
           {grade.from === grade.to ? 
             <p>{grade.to} კლასი</p> : <p>{grade.from}-{grade.to} კლასი</p>
           }
@@ -114,19 +121,19 @@ export default function ProblemComponent({ data, index }) {
         )}
 
         { (hints?.length > 0 || hintPhotos?.length > 0) &&
-          <Collapsible key={`hints ${taskId}`} title="მითითებები" shift={true}>
+          <Collapsible key={`hints ${taskId}`} title="მითითებები" shift={true} style={{ backgroundColor: collapsible }}>
             <HintList hints={hints} photos={hintPhotos}/>
           </Collapsible>
         }
 
         { (comments?.length > 0 || commentPhotos?.length) > 0 &&
-          <Collapsible key={`comments ${taskId}`} title="კომენტარები" shift={true}>
+          <Collapsible key={`comments ${taskId}`} title="კომენტარები" shift={true} style={{ backgroundColor: collapsible }}>
             <CommentList comments={comments} photos={commentPhotos}/>
           </Collapsible>
         }
 
         { (solution || solutionPhotos?.length > 0) &&
-          <Collapsible key={`solution ${taskId}`} title={`ამოხსნა`} shift={false}>
+          <Collapsible key={`solution ${taskId}`} title={`ამოხსნა`} shift={false} style={{ backgroundColor: collapsible }}>
             <Math render={solution}/>
             {solutionPhotos?.length > 0 && (
               solutionPhotos.map((photo, index) => (
