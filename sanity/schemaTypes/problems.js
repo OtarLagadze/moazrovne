@@ -130,15 +130,18 @@ export const problemsType = defineType({
   ],
   initialValue: async () => {
     const query = `count(*[_type == "problems"])`;
-    const lastCount = await fetchCountFromSanity(query);
+    const lastCount = await fetchFromSanity(query);
+    const query1 = `*[_type == "problems"] | order(_createdAt desc)[0]{taskId, tags}`
+    const lastProblem = await fetchFromSanity(query1);
     return {
       title: `${lastCount + 1}. საოლიმპიადო ამოცანა`,
       taskId: lastCount + 1,
+      tags: lastProblem?.tags || []
     };
   },
 });
 
-async function fetchCountFromSanity(query) {
+async function fetchFromSanity(query) {
   // const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   // const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
   // const url = `https://${projectId}.api.sanity.io/v2023-03-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;

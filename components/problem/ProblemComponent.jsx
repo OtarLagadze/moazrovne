@@ -1,7 +1,6 @@
 "use client"
 
 import { urlFor } from "@/app/libs/sanity";
-import { Suspense } from "react";
 import Image from "next/image";
 import classes from "./ProblemComponent.module.css";
 import difficultyColors from "@/data/difficultyColors.json";
@@ -23,25 +22,23 @@ const config = {
 
 function Math({ render }) {
   return (
-    <Suspense fallback={<div>იტვირთება...</div>}>
-      <MathJax className={classes.mathJax}>
-        { render }
-      </MathJax>
-    </Suspense>
+    <MathJax className={classes.mathJax}>
+      { render }
+    </MathJax>
   )
 }
 
-function HintList({ hints, photos }) {
+function HintList({ hints, photos, collapsible }) {
   return (
     <>
       {hints?.map((hint, index) => (
-        <Collapsible key={index} title={`მითითება #${index + 1}`} shift={false}>
+        <Collapsible key={index} title={`მითითება #${index + 1}`} shift={false} style={{ backgroundColor: collapsible }}>
           <Math render={hint}/>
         </Collapsible>
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
-          <Collapsible key={index} title={`მითითება #${index + (hints ? hints.length : 0) + 1}`} shift={false}>
+          <Collapsible key={index} title={`მითითება #${index + (hints ? hints.length : 0) + 1}`} shift={false} style={{ backgroundColor: collapsible }}>
             <Image
               src={urlFor(photo).url()}
               alt={`hint photo`}
@@ -57,17 +54,17 @@ function HintList({ hints, photos }) {
   );
 }
 
-function CommentList({ comments, photos }) {
+function CommentList({ comments, photos, collapsible }) {
   return (
     <>
       {comments?.map((comment, index) => (
-        <Collapsible key={index} title={`კომენტარი #${index + 1}`} shift={false}>
+        <Collapsible key={index} title={`კომენტარი #${index + 1}`} shift={false} style={{ backgroundColor: collapsible }}>
           <Math render={comment}/>
         </Collapsible>
       ))}
       {photos?.length > 0 && (
         photos.map((photo, index) => (
-          <Collapsible key={index} title={`კომენტარი #${index + (comments ? comments.length : 0) + 1}`} shift={false}>
+          <Collapsible key={index} title={`კომენტარი #${index + (comments ? comments.length : 0) + 1}`} shift={false} style={{ backgroundColor: collapsible }}>
             <Image
               src={urlFor(photo).url()}
               alt={`comment photo`}
@@ -122,13 +119,13 @@ export default function ProblemComponent({ data, index }) {
 
         { (hints?.length > 0 || hintPhotos?.length > 0) &&
           <Collapsible key={`hints ${taskId}`} title="მითითებები" shift={true} style={{ backgroundColor: collapsible }}>
-            <HintList hints={hints} photos={hintPhotos}/>
+            <HintList hints={hints} photos={hintPhotos} collapsible={collapsible}/>
           </Collapsible>
         }
 
         { (comments?.length > 0 || commentPhotos?.length) > 0 &&
           <Collapsible key={`comments ${taskId}`} title="კომენტარები" shift={true} style={{ backgroundColor: collapsible }}>
-            <CommentList comments={comments} photos={commentPhotos}/>
+            <CommentList comments={comments} photos={commentPhotos} collapsible={collapsible}/>
           </Collapsible>
         }
 
