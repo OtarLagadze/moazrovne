@@ -23,7 +23,7 @@ async function getData(slug) {
     ` 
     : 
     `
-      *[_type == 'tests'] | order(title desc) {
+      *[_type == 'tests'] | order(testId desc) {
         title,
         grade,
         "file": tests.asset->url

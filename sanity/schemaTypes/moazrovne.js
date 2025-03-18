@@ -95,6 +95,12 @@ export const testsType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "testId",
+      type: "number",
+      title: "ტესტის ID",
+      description: "ეს ID ავტომატურად გენერირდება"
+    }),
+    defineField({
       name: 'date',
       type: 'date',
       title: 'თარიღი',
@@ -134,12 +140,12 @@ export const testsType = defineType({
       type: 'string',
       options: {
         list: [
+          {title: 'მოაზროვნე', value: 'moazrovne'},
           {title: 'მათემატიკა', value: 'math'},
           {title: 'ქართული', value: 'georgian'},
           {title: 'ინგლისური', value: 'english'},
         ],
-      },
-      validation: (rule) => rule.required(),
+      }
     }),
     defineField({
       name: 'tests',
@@ -147,8 +153,15 @@ export const testsType = defineType({
       title: 'ტესტი',
       description: 'აქ ატვირთეთ ტესტის ფაილი',
       validation: (rule) => rule.required(),
-    }),
+    })
   ],
+  initialValue: async () => {
+    const query = `count(*[_type == "tests"])`;
+    const lastCount = await fetchCountFromSanity(query);
+    return {
+      testId: lastCount + 1,
+    };
+  },
 })
 
 async function fetchCountFromSanity(query) {
