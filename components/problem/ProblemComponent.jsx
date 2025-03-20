@@ -15,7 +15,7 @@ const config = {
   loader: { load: ["input/tex", "output/svg"] },
   tex: {
     inlineMath: [["\\(", "\\)"]],
-    displayMath: [["$", "$"]],
+    displayMath: [["\\[", "\\]"]],
     processEscapes: true, // \$ for actual dollar sign
   }
 };

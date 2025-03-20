@@ -41,7 +41,7 @@ export default async function OlympiadProblemsPage({ searchParams }) {
       <FilterableList 
         searchParams={resolvedSearchParams} 
         data={problems}
-        itemsPerPage={5}
+        itemsPerPage={10}
         filters={filters}
         RenderComponent={ProblemComponent}
       />
