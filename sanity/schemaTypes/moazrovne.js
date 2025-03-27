@@ -76,12 +76,30 @@ export const moazrovneProblemsType = defineType({
   initialValue: async () => {
     const query = `count(*[_type == "moazrovneProblems"])`;
     const lastCount = await fetchCountFromSanity(query);
+    const lastEntry = await fetchLastEntryFromSanity("moazrovneProblems");
     return {
       title: `${lastCount + 1}. მოაზროვნეს ამოცანა`,
       taskId: lastCount + 1,
+      grade: lastEntry?.grade || { from: 1, to: 12 },
     };
   },
 });
+
+async function fetchLastEntryFromSanity(collectionName) {
+  const query = `*[_type == "${collectionName}"] | order(_createdAt desc)[0]{ "count": count(*), grade }`;
+  const url = `https://8390afyw.api.sanity.io/v2023-03-01/data/query/production?query=${encodeURIComponent(query)}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data?.result || null;
+  } catch (error) {
+    console.error(`Error fetching last entry from Sanity (${collectionName}):`, error);
+    return null;
+  }
+}
 
 export const testsType = defineType({
   name: 'tests',
