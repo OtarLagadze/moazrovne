@@ -17,6 +17,8 @@ async function getData(slug) {
         tags,
         solution,
         solutionPhotos,
+        hints,
+        hintPhotos,
         photos,
         "currentSlug": slug.current
       }

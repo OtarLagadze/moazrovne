@@ -132,10 +132,11 @@ export default function ProblemComponent({ data, index }) {
         { (solution || solutionPhotos?.length > 0) &&
           <Collapsible key={`solution ${taskId}`} title={`ამოხსნა`} shift={false} style={{ backgroundColor: collapsible }}>
             {solution && <Math render={solution}/>}
-            {solutionPhotos?.length > 0 && (
-              solutionPhotos.map((photo, index) => (
+            {solutionPhotos.map((photo, index) => {
+              const imageUrl = urlFor(photo)?.url();
+              return imageUrl ? (
                 <Image
-                  src={urlFor(photo).url()}
+                  src={imageUrl}
                   key={`Solution photo ${index + 1}`}
                   alt={`Solution photo`}
                   width={0}
@@ -143,8 +144,10 @@ export default function ProblemComponent({ data, index }) {
                   layout="responsive"
                   className={classes.problemImg}
                 />
-              ))
-            )}
+              ) : (
+                <p key={`Solution photo ${index + 1}`}>დაფიქსირდა შეცდომა</p>
+              );
+            })}
           </Collapsible>
         }
       </div>
