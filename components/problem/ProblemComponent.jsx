@@ -131,7 +131,7 @@ export default function ProblemComponent({ data, index }) {
 
         { (solution || solutionPhotos?.length > 0) &&
           <Collapsible key={`solution ${taskId}`} title={`ამოხსნა`} shift={false} style={{ backgroundColor: collapsible }}>
-            <Math render={solution}/>
+            {solution && <Math render={solution}/>}
             {solutionPhotos?.length > 0 && (
               solutionPhotos.map((photo, index) => (
                 <Image

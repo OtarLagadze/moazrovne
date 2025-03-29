@@ -60,6 +60,20 @@ export const moazrovneProblemsType = defineType({
       ],
     }),
     defineField({
+      name: "hints",
+      title: "მითითებები",
+      type: "array",
+      of: [{ type: "text" }],
+      description: "დაამატეთ მითითებები",
+    }),
+    defineField({
+      name: "hintPhotos",
+      title: "მითითების ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
+    }),
+    defineField({
       name: "solution",
       title: "ამოხსნა",
       type: "text",
