@@ -12,7 +12,7 @@ export const metadata = {
 
 async function getBook() {
   const query = `
-    *[_type == 'practiceBook'] {
+    *[_type == 'practiceBook'] | order(date, asc) {
         "link": practiceBook.asset->url
     }
   `;

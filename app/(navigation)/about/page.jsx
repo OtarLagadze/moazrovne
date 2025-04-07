@@ -74,7 +74,11 @@ export default async function AboutPage() {
             },
           }}
         />
+        <a href="https://youtu.be/mpRmI2A1QMI" target="_blank" rel="noopener noreferrer" className={classes.videoLink}>
+          ვიდეოს ბმული
+        </a>
       </div>
+      
 
       {data.coworkers?.length > 0 && (
         <section>
