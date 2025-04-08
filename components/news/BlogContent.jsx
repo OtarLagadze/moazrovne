@@ -3,6 +3,7 @@ import { client, urlFor } from "@/app/libs/sanity";
 import getDate from "@/app/libs/getDate";
 import NewsElement from "./NewsElement";
 import classes from "./BlogContent.module.css";
+import InstructionList from "../instruction/InstructionList";
 
 export async function getData() {
   const query = `
@@ -24,8 +25,8 @@ export default async function BlogContent() {
 
   return (
     <section className={classes.article}>
+      <InstructionList />
       <h2 className={classes.secondHeading}>სიახლეები</h2>
-
       <div className={classes.newsWrapper}>
         {data.map((post, i) => (
           <NewsElement

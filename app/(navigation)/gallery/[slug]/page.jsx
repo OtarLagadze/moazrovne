@@ -23,8 +23,6 @@ async function getData(slug) {
 export default async function GalleryContentPage({ params }) {
   const data = await getData(params.slug);
 
-  console.log(data.galleryImages);
-
   const transformToSlides = (inputArray) =>
     inputArray.map((item) => ({
       src: urlFor(item).url(),

@@ -19,8 +19,8 @@ export default function HeroSection() {
             <p className={classes.headerParagraph}>
               გამარჯვებულებს ასევე ელოდებათ ფასიანი საჩუქრები.
             </p>
-            <Link href="/first-round" className={classes.roundLink}>
-              I ტური
+            <Link href="/moazrovne" className={classes.roundLink}>
+              მოემზადე I ტურისათვის
             </Link>
           </div>
         </div>
