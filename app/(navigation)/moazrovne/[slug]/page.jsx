@@ -50,7 +50,7 @@ export default async function MoazrovneSlug({ params, searchParams }) {
       <FilterableList 
         searchParams={resolvedSearchParams} 
         data={data}
-        itemsPerPage={slug === 'problemset' ? 10 : 20}
+        itemsPerPage={slug === 'problemset' ? 15 : 20}
         filters={filters}
         RenderComponent={slug === 'problemset' ? ProblemComponent : TestLink}
       />

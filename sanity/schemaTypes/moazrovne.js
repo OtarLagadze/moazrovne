@@ -15,8 +15,7 @@ export const moazrovneProblemsType = defineType({
       name: "taskId",
       type: "number",
       title: "ამოცანის ID",
-      description: "ეს ID ავტომატურად გენერირდება",
-      readOnly: true
+      description: "ეს ID ავტომატურად გენერირდება"
     }),
     defineField({
       name: "statement",
