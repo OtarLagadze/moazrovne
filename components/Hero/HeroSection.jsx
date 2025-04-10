@@ -16,10 +16,13 @@ export default function HeroSection() {
               ჩაერთე ოლიმპიადაში, იაზროვნე, მოიგე ბარსელონას საგზური და ფასიანი საჩუქრები! 
             </h1>
             <p className={classes.headerParagraph}>
-              გამარჯვებულებს ასევე ელოდებათ ფასიანი საჩუქრები.
+              გამარჯვებულებს ასევე ელოდებათ მოაზროვნეს ბანაკში ფასდაკლების ვაუჩერები!
             </p>
             <Link href="/moazrovne" className={classes.roundLink}>
               მოემზადე I ტურისათვის
+            </Link>
+            <Link href="/instruction" className={classes.roundLink}>
+              როგორ ჩავერთო ოლიმპიადაში
             </Link>
           </div>
         </div>

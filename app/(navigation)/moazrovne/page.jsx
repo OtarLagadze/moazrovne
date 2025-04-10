@@ -10,9 +10,10 @@ export const metadata = {
   description: "მოაზროვნეს ოლიმპიადა. მოაზროვნეს სავარჯიშო ტესტები და ამოცანები",
 };
 
-async function getBook() {
+async function getBooks() {
   const query = `
     *[_type == 'practiceBook'] | order(date, asc) {
+        title,
         "link": practiceBook.asset->url
     }
   `;
@@ -22,7 +23,9 @@ async function getBook() {
 }
 
 export default async function EntrantsPage() {
-  const book = await getBook();
+  const books = await getBooks();
+
+  console.log(books);
 
   const cardData = [
     { text: "ამოცანები", link: "moazrovne/problemset" },
@@ -39,13 +42,20 @@ export default async function EntrantsPage() {
           </Link>
         ))}
         <a
-          href={book[1].link}
-          key={book[1].link}
+          href={books[2].link}
           className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
         >
-          მოსამზადებელი კრებული
+          {books[2].title}
+        </a>
+        <a
+          href={books[1].link}
+          className={classes.card}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          მოსამზადებელი კრებული V-VI კლასი
         </a>
       </div>
     </>

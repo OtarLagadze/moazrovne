@@ -74,9 +74,16 @@ export default async function AboutPage() {
             },
           }}
         />
-        <a href="https://youtu.be/mpRmI2A1QMI" target="_blank" rel="noopener noreferrer" className={classes.videoLink}>
-          ვიდეოს ბმული
-        </a>
+        <div>
+          <a href="https://egmo2024.ge" target="_blank" rel="noopener noreferrer" className={classes.videoLink}>
+            EGMO 2024 ვებ-გვერდი
+          </a>
+        </div>
+        <div>
+          <a href="https://youtu.be/mpRmI2A1QMI" target="_blank" rel="noopener noreferrer" className={classes.videoLink}>
+            ვიდეოს ბმული
+          </a>
+        </div>
       </div>
       
 

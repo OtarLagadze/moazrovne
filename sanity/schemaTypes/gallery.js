@@ -33,6 +33,17 @@ export const galleryType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'links',
+      title: 'ბმულები (Iframe)',
+      type: 'array',
+      of: [
+        {
+          name: 'link',
+          type: 'url'
+        }
+      ]
+    }),
+    defineField({
       name: 'galleryImages',
       type: 'array',
       title: 'სურათები',
@@ -44,8 +55,7 @@ export const galleryType = defineType({
       options: {
         layout: 'grid',
         hotspot: true,
-      },
-      validation: (rule) => rule.required(),
+      }
     }),
   ],
 })

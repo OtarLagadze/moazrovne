@@ -40,6 +40,8 @@
   border: 1px solid rgb(0, 0, 0, 0.2);
   border-radius: 30px;
   transition: all 300ms;
+  display: inline-block;
+  margin-bottom: 15px;
 }
 
 @media (min-width: 1000px) {
@@ -91,7 +93,7 @@
   .roundLink {
     text-align: center;
     display: block;
-    margin: 0 auto;
+    /* margin: 0 auto; */
   }
 }
 

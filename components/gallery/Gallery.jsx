@@ -15,6 +15,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Images from "./Images";
 
 export default function Gallery({ slides }) {
+  if (!slides) return;
   const [index, setIndex] = useState(-1);
 
   return (

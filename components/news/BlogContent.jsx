@@ -3,18 +3,17 @@ import { client, urlFor } from "@/app/libs/sanity";
 import getDate from "@/app/libs/getDate";
 import NewsElement from "./NewsElement";
 import classes from "./BlogContent.module.css";
-import InstructionList from "../instruction/InstructionList";
 
 export async function getData() {
   const query = `
-  *[_type == 'blog'] | order(date desc) {
-    title,
-      smallDescription,
-      "currentSlug": slug.current,
-      date,
-      titleImage
-  }[0..2]
-`;
+    *[_type == 'blog'] | order(date desc) {
+      title,
+        smallDescription,
+        "currentSlug": slug.current,
+        date,
+        titleImage
+    }[0..2]
+  `;
 
   const data = await client.fetch(query);
   return data;
@@ -25,7 +24,6 @@ export default async function BlogContent() {
 
   return (
     <section className={classes.article}>
-      <InstructionList />
       <h2 className={classes.secondHeading}>სიახლეები</h2>
       <div className={classes.newsWrapper}>
         {data.map((post, i) => (
