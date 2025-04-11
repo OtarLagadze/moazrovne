@@ -129,17 +129,37 @@ export const problemsType = defineType({
     }),
   ],
   initialValue: async () => {
-    const query = `count(*[_type == "problems"])`;
-    const lastCount = await fetchFromSanity(query);
-    const query1 = `*[_type == "problems"] | order(_createdAt desc)[0]{taskId, tags}`
-    const lastProblem = await fetchFromSanity(query1);
+    const countQuery = `count(*[_type == "problems"])`;
+    const lastCount = await fetchFromSanity(countQuery);
+    const tagsQuery = `*[_type == "problems"] | order(_createdAt desc)[0]{ taskId, tags }`;
+    const lastProblem = await fetchFromSanity(tagsQuery);
+    const lastEntry = await fetchLastEntryFromSanity("problems");
+
     return {
       title: `${lastCount + 1}. საოლიმპიადო ამოცანა`,
       taskId: lastCount + 1,
-      tags: lastProblem?.tags || []
+      tags: lastProblem?.tags || [],
+      grade: lastEntry?.grade || { from: 1, to: 12 },
+      difficulty: lastEntry?.difficulty || 1,
     };
   },
 });
+
+async function fetchLastEntryFromSanity(collectionName) {
+  const query = `*[_type == "${collectionName}"] | order(_createdAt desc)[0]{ "count": count(*), grade, difficulty }`;
+  const url = `https://8390afyw.api.sanity.io/v2023-03-01/data/query/production?query=${encodeURIComponent(query)}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data?.result || null;
+  } catch (error) {
+    console.error(`Error fetching last entry from Sanity (${collectionName}):`, error);
+    return null;
+  }
+}
 
 async function fetchFromSanity(query) {
   // const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
