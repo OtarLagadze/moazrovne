@@ -6,6 +6,15 @@ import classes from "./page.module.css";
 
 export const revalidate = 30;
 
+export async function generateStaticParams() {
+  const query = `*[_type == "instruction"]{ "slug": slug.current }`;
+  const data = await client.fetch(query);
+
+  return data.map(item => ({
+    slug: item.slug
+  }));
+}
+
 async function getData(slug) {
   const query = `
     *[_type == 'instruction' && slug.current == '${slug}'] {
@@ -21,21 +30,12 @@ async function getData(slug) {
 }
 
 export default async function InstructionArticle({ params }) {
-  const data = await getData(params.slug);
+  const { slug } = await Promise.resolve(params);
+  const data = await getData(slug);
 
   return (
     <section className={classes.section}>
       <h1 className={classes.title}>{data?.title}</h1>
-      {/* <Image
-        className={classes.postImage}
-        width={636}
-        height={400}
-        alt={data?.title}
-        src={
-          data?.titleImage ? urlFor(data.titleImage).url() : "/placeholder.webp"
-        }
-        priority
-      /> */}
       <div className="prose">
         <PortableText
           value={data?.content}
