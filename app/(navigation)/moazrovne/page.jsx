@@ -57,6 +57,13 @@ export default async function EntrantsPage() {
         >
           მოსამზადებელი კრებული V-VI კლასი
         </a>
+        <a
+          href={'gallery/onlain-gakvetilebi-5-6-klasis-mostsavleebistvis'}
+          className={classes.card}
+          rel="noopener noreferrer"
+        >
+          ონლაინ გაკვეთილები V-VI კლასის მოსწავლეებისთვის
+        </a>
       </div>
     </>
   );

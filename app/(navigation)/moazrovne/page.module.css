@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 150px auto 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
   justify-content: center;
   padding: 0 20px;
