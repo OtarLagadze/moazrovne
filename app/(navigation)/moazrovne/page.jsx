@@ -28,8 +28,8 @@ export default async function EntrantsPage() {
   console.log(books);
 
   const cardData = [
-    { text: "სავარჯიშო ამოცანები", link: "moazrovne/problemset" },
-    { text: "სავარჯიშო ტესტები", link: "moazrovne/tests" }
+    { text: "სავარჯიშო ამოცანები II-III-IV-V-VI კლასები", link: "moazrovne/problemset" },
+    { text: "სავარჯიშო ტესტები II-III-IV-V-VI კლასები", link: "moazrovne/tests" }
   ];
 
   return (
