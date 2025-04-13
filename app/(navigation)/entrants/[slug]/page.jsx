@@ -26,7 +26,7 @@ export default async function EntrantsSlug({ params, searchParams }) {
       <FilterableList 
         searchParams={searchParams} 
         data={data}
-        itemsPerPage={params.slug === 'nationalExams' ? 50 : 20}
+        itemsPerPage={params.slug === 'nationalExams' ? 50 : 1000}
         RenderComponent={TestLink}
       />
     </>

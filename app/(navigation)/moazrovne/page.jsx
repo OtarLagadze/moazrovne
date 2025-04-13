@@ -2,6 +2,7 @@ import Link from "next/link";
 import classes from "./page.module.css";
 import { client } from "@/app/libs/sanity";
 import HeaderComponent from "@/components/ui/header/HeaderComponent";
+import gradeData from "@/data/grade.json";
 
 export const revalidate = 30;
 
@@ -37,7 +38,7 @@ export default async function EntrantsPage() {
       <HeaderComponent text={'მოაზროვნეს ოლიმპიადა'}/>
       <div className={classes.cardsWrapper}>
         {cardData.map((card, index) => (
-          <Link key={index} href={card.link} className={classes.card}>
+          <Link key={index} href={card.link} className={classes.card} style={{backgroundColor: `${gradeData[11 - index].color}`}}>
             {card.text}
           </Link>
         ))}
@@ -46,6 +47,7 @@ export default async function EntrantsPage() {
           className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
+          style={{backgroundColor: `${gradeData[9].color}`}}
         >
           {books[2].title}
         </a>
@@ -54,6 +56,7 @@ export default async function EntrantsPage() {
           className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
+          style={{backgroundColor: `${gradeData[8].color}`}}
         >
           მოსამზადებელი კრებული V-VI კლასი
         </a>
@@ -61,6 +64,7 @@ export default async function EntrantsPage() {
           href={'gallery/onlain-gakvetilebi-5-6-klasis-mostsavleebistvis'}
           className={classes.card}
           rel="noopener noreferrer"
+          style={{backgroundColor: `${gradeData[7].color}`}}
         >
           ონლაინ გაკვეთილები V-VI კლასის მოსწავლეებისთვის
         </a>
