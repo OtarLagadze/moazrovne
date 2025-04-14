@@ -29,7 +29,7 @@ export default async function EntrantsPage() {
   console.log(books);
 
   const cardData = [
-    { text: "სავარჯიშო ამოცანები II-III-IV-V-VI კლასები", link: "moazrovne/problemset" },
+    { text: "სავარჯიშო ამოცანები I-II-III-IV-V-VI კლასები", link: "moazrovne/problemset" },
     { text: "სავარჯიშო ტესტები II-III-IV-V-VI კლასები", link: "moazrovne/tests" }
   ];
 
