@@ -73,6 +73,19 @@ export const moazrovneProblemsType = defineType({
       description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
     }),
     defineField({
+      name: "answer",
+      title: "პასუხი",
+      type: "text",
+      description: "დაამატეთ პასუხი",
+    }),
+    defineField({
+      name: "answerPhotos",
+      title: "პასუხის ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ პასუხთან დაკავშირებული ფოტოები",
+    }),
+    defineField({
       name: "solution",
       title: "ამოხსნა",
       type: "text",
@@ -91,15 +104,15 @@ export const moazrovneProblemsType = defineType({
     const lastCount = await fetchCountFromSanity(query);
     const lastEntry = await fetchLastEntryFromSanity("moazrovneProblems");
     return {
-      title: `${lastCount + 1}. მოაზროვნეს ამოცანა`,
-      taskId: lastCount + 1,
+      title: `${lastEntry?.taskId + 1}. მოაზროვნეს ამოცანა`,
+      taskId: lastEntry?.taskId + 1,
       grade: lastEntry?.grade || { from: 1, to: 12 },
     };
   },
 });
 
 async function fetchLastEntryFromSanity(collectionName) {
-  const query = `*[_type == "${collectionName}"] | order(_createdAt desc)[0]{ "count": count(*), grade }`;
+  const query = `*[_type == "${collectionName}"] | order(_createdAt desc)[0]{ "count": count(*), grade, taskId }`;
   const url = `https://8390afyw.api.sanity.io/v2023-03-01/data/query/production?query=${encodeURIComponent(query)}`;
   try {
     const response = await fetch(url);

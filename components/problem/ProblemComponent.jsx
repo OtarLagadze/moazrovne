@@ -86,7 +86,7 @@ function getDifficultyStyles(difficulty) {
 
 export default function ProblemComponent({ data, index }) {
   if (!data) return;
-  const { taskId, grade, difficulty, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos } = data;
+  const { taskId, grade, difficulty, statement, photos, hints, hintPhotos, comments, commentPhotos, solution, solutionPhotos, answer, answerPhotos } = data;
   const { card, header, collapsible } = getDifficultyStyles(difficulty);
   return (
     <MathJaxContext config={config} key={index}>
@@ -146,6 +146,28 @@ export default function ProblemComponent({ data, index }) {
                 />
               ) : (
                 <p key={`Solution photo ${index + 1}`}>დაფიქსირდა შეცდომა</p>
+              );
+            })}
+          </Collapsible>
+        }
+
+        { (answer || answerPhotos?.length > 0) &&
+          <Collapsible key={`solution ${taskId}`} title={`პასუხი`} shift={false} style={{ backgroundColor: collapsible }}>
+            {answer && <Math render={answer}/>}
+            {answerPhotos?.map((photo, index) => {
+              const imageUrl = urlFor(photo)?.url();
+              return imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  key={`Answer photo ${index + 1}`}
+                  alt={`Answer photo`}
+                  width={0}
+                  height={0}
+                  layout="responsive"
+                  className={classes.problemImg}
+                />
+              ) : (
+                <p key={`Answer photo ${index + 1}`}>დაფიქსირდა შეცდომა</p>
               );
             })}
           </Collapsible>
