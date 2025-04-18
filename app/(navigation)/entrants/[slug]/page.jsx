@@ -11,7 +11,7 @@ async function getData(type) {
       title,
       "file": ${type}.asset->url
     }
-  `; 
+  `;
 
   const data = await client.fetch(query);
   return data;

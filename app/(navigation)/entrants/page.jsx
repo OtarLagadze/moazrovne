@@ -25,13 +25,13 @@ export default async function EntrantsPage() {
   const book = await getBook();
 
   const cardData = [
-    { text: "ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით", link: "entrants/nationalExams" },
-    { text: "სავარჯიშო ტესტები პასუხებით", link: "entrants/practiceTests" }
+    { text: "ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით", link: "/entrants/nationalExams" },
+    { text: "სავარჯიშო ტესტები პასუხებით", link: "/entrants/practiceTests" }
   ];
 
   return (
     <>
-      <HeaderComponent text={'აბიტურიენტის გვერდი'}/>
+      <HeaderComponent text={'აბიტურიენტის გვერდი'} />
       <div className={classes.cardsWrapper}>
         {cardData.map((card, index) => (
           <Link key={index} href={card.link} className={classes.card}>
