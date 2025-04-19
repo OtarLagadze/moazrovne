@@ -3,7 +3,7 @@
 import LoadingText from "@/app/loadingText";
 import { useState, useRef, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import styles from "./ScrollView.module.css";
+import styles from "./Scroll.module.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
