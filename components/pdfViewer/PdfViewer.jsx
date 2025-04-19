@@ -1,93 +1,42 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import LoadingText from "@/app/loadingText";
-import { useState, useRef, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import styles from "./PdfViewer.module.css";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
+import { pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+const PaginatedView = dynamic(() => import('@/components/pdfViewer/PaginatedView'), {
+  ssr: false,
+  loading: () => <LoadingText />,
+});
+
+const ScrollView = dynamic(() => import('@/components/pdfViewer/ScrollView'), {
+  ssr: false,
+  loading: () => <LoadingText />,
+});
 
 export default function PdfViewer({ file }) {
   const [numPages, setNumPages] = useState(null);
-  const [width, setWidth] = useState(700);
-  const [renderedPages, setRenderedPages] = useState([]);
   const [error, setError] = useState(null);
-  const containerRef = useRef(null);
 
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        if (entry.contentRect) {
-          setWidth(entry.contentRect.width);
-        }
-      }
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+    const loadPDF = async () => {
+      try {
+        const pdf = await pdfjs.getDocument(file).promise;
+        setNumPages(pdf.numPages);
+      } catch (err) {
+        console.error("Error loading PDF:", err);
+        setError("Failed to load PDF");
       }
     };
-  }, []);
 
-  const onDocLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setRenderedPages([]);
-    setError(null);
-  };
+    loadPDF();
+  }, [file]);
 
-  const onPageRenderSuccess = (pageIndex) => {
-    setRenderedPages((prev) => {
-      const updated = [...new Set([...prev, pageIndex])];
-      return updated;
-    });
-  };
+  if (error) return <div className={classes.error}>{error}</div>
+  if (!numPages) return <LoadingText />
 
-  const onDocLoadError = (err) => {
-    console.error("PDF loading error:", err);
-    setError("დაფიქსირდა შეცდომა");
-  };
-
-  const allPagesRendered = numPages !== null && renderedPages.length === numPages;
-
-  return (
-    <div className={styles.viewerWrapper}>
-      <div ref={containerRef} className={styles.container}>
-        {error && <div className={styles.error}>{error}</div>}
-
-        {!error && !allPagesRendered && (
-          <div className={styles.loading}>
-            <LoadingText />
-          </div>
-        )}
-
-        {!error && (
-          <div className={styles.pdfContainer} style={{ display: allPagesRendered ? "block" : "none" }}>
-            <Document file={file} onLoadSuccess={onDocLoadSuccess} onLoadError={onDocLoadError}>
-              {Array.from(new Array(numPages), (_, index) => (
-                <div key={`page_container_${index + 1}`} className={styles.pageContainer}>
-                  <Page
-                    pageNumber={index + 1}
-                    width={width - 32}
-                    renderAnnotationLayer={false}
-                    renderTextLayer={true}
-                    onRenderSuccess={() => onPageRenderSuccess(index)}
-                  />
-                </div>
-              ))}
-            </Document>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return numPages <= 20 ? <ScrollView file={file} /> : <PaginatedView file={file} />;
 }

@@ -1,0 +1,142 @@
+.viewerWrapper {
+  display: flex;
+  justify-content: center;
+  background-color: #f2f2f2;
+  min-height: 100vh;
+  align-items: center;
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+.paginationRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.jumpRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navButton {
+  padding: 0.5rem 1rem;
+  min-width: 100px;
+  background-color: #4a6baf;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover {
+  background-color: #3a5a9f;
+}
+
+.navButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pageDisplay {
+  min-width: 120px;
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.jumpInput {
+  width: 100px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.jumpInput::-webkit-outer-spin-button,
+.jumpInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.jumpButton {
+  padding: 0.5rem 1rem;
+  background-color: #4a6baf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.jumpButton:hover {
+  background-color: #3a5a9f;
+}
+
+.jumpButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pdfContainer {
+  position: relative;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin: 1rem 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.page {
+  width: 100%;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+@media (max-width: 768px) {
+  .paginationRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .navButton {
+    width: 100%;
+  }
+  
+  .pageDisplay {
+    order: -1;
+    margin-bottom: 0.5rem;
+  }
+}

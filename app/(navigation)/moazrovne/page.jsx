@@ -43,7 +43,7 @@ export default async function EntrantsPage() {
           </Link>
         ))}
         <a
-          href={books[2].link}
+          href={`pdf/${books[2].link.split('/').pop().split('.')[0]}`}
           className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
@@ -52,7 +52,7 @@ export default async function EntrantsPage() {
           {books[2].title}
         </a>
         <a
-          href={books[1].link}
+          href={`pdf/${books[1].link.split('/').pop().split('.')[0]}`}
           className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
