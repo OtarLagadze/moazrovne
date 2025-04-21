@@ -13,7 +13,7 @@ export default function HeroSection() {
           </div>
           <div className={classes.headerTextWrapper}>
             <h1 className={classes.heading}>
-              ჩაერთე ოლიმპიადაში, იაზროვნე, მოიგე ბარსელონას საგზური და ფასიანი საჩუქრები! 
+              ჩაერთე ოლიმპიადაში, იაზროვნე, მოიგე რომის საგზური და ფასიანი საჩუქრები! 
             </h1>
             {/* <p className={classes.headerParagraph}>
               გამარჯვებულებს ასევე ელოდებათ მოაზროვნეს ბანაკში ფასდაკლების ვაუჩერები!
