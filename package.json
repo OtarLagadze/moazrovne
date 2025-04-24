@@ -23,6 +23,7 @@
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-dom": "^18",
+    "react-facebook-pixel": "^1.0.4",
     "react-pdf": "^9.2.1",
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
