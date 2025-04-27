@@ -5,7 +5,7 @@ import HeaderComponent from '@/components/ui/header/HeaderComponent';
 
 export async function getData() {
   const query = `
-  *[_type == 'instruction'] {
+  *[_type == 'instruction'] | order(title, desc) {
     title,
     "currentSlug": slug.current
   }
@@ -20,9 +20,9 @@ export default async function InstructionList() {
   if (!instructions) return <div>მონაცემები არ მოიძებნა</div>;
   return (
     <>
-      <HeaderComponent text={'ოლიმპიადის ინსტრუქცია'}/>
+      {/* <HeaderComponent text={'ოლიმპიადის ინსტრუქცია'}/> */}
       <div className={classes.cardsWrapper}>
-        {instructions.map((obj, index) => (
+        {instructions.reverse().map((obj, index) => (
           <Link key={index} href={`instruction/${obj.currentSlug}`} className={classes.card}>
             {obj.title}
           </Link>

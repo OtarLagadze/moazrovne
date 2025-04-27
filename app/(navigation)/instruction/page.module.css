@@ -1,6 +1,6 @@
 .cardsWrapper {
-  max-width: 1200px;
-  margin: 150px auto 100px;
+  max-width: 900px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
@@ -8,22 +8,15 @@
   padding: 0 20px;
 }
 
-@media (max-width: 500px) {
-  .cardsWrapper {
-    grid-template-columns: 1fr;
-    margin: 60px auto 20;
-  }
-}
-
 .card {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
+  aspect-ratio: 1.2 / 1;
   width: 100%;
-  padding: 15px;
+  /* padding: 15px; */
   border-radius: 8px;
-  background: #f0f0f0;
+  background: white;
   text-align: center;
   font-size: 1.6rem;
   font-weight: bold;
@@ -34,5 +27,15 @@
 }
 
 .card:hover {
-  background: #dddddd;
+  background: #f0f0f0;
+}
+@media (max-width: 500px) {
+  .cardsWrapper {
+    grid-template-columns: 1fr;
+    margin: 60px auto 20;
+  }
+
+  .card {
+    font-size: 2rem;
+  }
 }

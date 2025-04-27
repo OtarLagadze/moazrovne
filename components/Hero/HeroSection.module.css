@@ -1,6 +1,10 @@
+.instructionWrapper {
+  background-color: var(--background-light-color);
+}
+
 .header {
   background-color: var(--background-light-color);
-  padding: 100px 100px 50px 100px;
+  padding: 70px 100px 50px 100px;
   position: relative;
 }
 
@@ -23,6 +27,10 @@
 
 .heading {
   font-size: 38px;
+}
+
+.subHeading {
+  color: var(--secondary-color);
 }
 
 .headerParagraph {
@@ -79,6 +87,9 @@
 
   .heading {
     font-size: 28px;
+    text-align: center;
+  }
+  .subHeading {
     text-align: center;
   }
   .headerParagraph {

@@ -2,10 +2,16 @@ import classes from "./HeroSection.module.css";
 import Wave from "@/components/ui/wave";
 import Link from "next/link";
 import LandingImage from "@/components/ui/LandingImage";
+import HeaderComponent from "@/components/ui/header/HeaderComponent";
+import InstructionList from "@/app/(navigation)/instruction/page";
 
 export default function HeroSection() {
   return (
     <section className={classes.heroSection}>
+      <HeaderComponent text={"მათემატიკის ოლიმპიადა III-IV-V-VI კლასელებისთვის"}/>
+      <div className={classes.instructionWrapper}>
+        <InstructionList />
+      </div>
       <header className={classes.header}>
         <div className={classes.headerWrapper}>
           <div className={classes.imgWrapper}>
@@ -13,17 +19,17 @@ export default function HeroSection() {
           </div>
           <div className={classes.headerTextWrapper}>
             <h1 className={classes.heading}>
-              ჩაერთე ოლიმპიადაში, იაზროვნე, მოიგე რომის საგზური და ფასიანი საჩუქრები! 
+              ჩაერთე ოლიმპიადაში, იაზროვნე, მოიგე რომის საგზური და ფასიანი საჩუქრები!
             </h1>
-            {/* <p className={classes.headerParagraph}>
-              გამარჯვებულებს ასევე ელოდებათ მოაზროვნეს ბანაკში ფასდაკლების ვაუჩერები!
-            </p> */}
+            <h1 className={classes.subHeading}>
+              პირველი ტური ჩატარდება 24 მაისს
+            </h1>
             <Link href="/moazrovne" className={classes.roundLink}>
               მოემზადე I ტურისათვის
             </Link>
-            <Link href="/instruction" className={classes.roundLink}>
+            {/* <Link href="/instruction" className={classes.roundLink}>
               როგორ ჩავერთო ოლიმპიადაში
-            </Link>
+            </Link> */}
           </div>
         </div>
         <Wave color="var(--background-light-color)" xCord="0" yCord="50px" />
