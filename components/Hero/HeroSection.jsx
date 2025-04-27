@@ -32,7 +32,7 @@ export default function HeroSection() {
             </Link> */}
           </div>
         </div>
-        <Wave color="var(--background-light-color)" xCord="0" yCord="50px" />
+        <Wave color="var(--background-light-color)" xCord="0" yCord="20px" />
       </header>
     </section>
   );
