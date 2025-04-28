@@ -1,6 +1,7 @@
 .heroImage {
   /* width: 350px;
   height: 350px; */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 50%;
   transition: all 1000ms;

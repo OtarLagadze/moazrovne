@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import BackToTop from "@/components/ui/BackToTop";
 import NextTopLoader from "nextjs-toploader";
 import Pixel from "@/components/pixel/Pixel";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   title: "მოაზროვნე / Moazrovne",
@@ -59,6 +60,7 @@ export default function RootLayout({ children }) {
         <NextTopLoader />
         <Navigation />
         <Pixel />
+        <SpeedInsights />
         <main className="mainRender">
           {children}
           <Analytics debug={false} />

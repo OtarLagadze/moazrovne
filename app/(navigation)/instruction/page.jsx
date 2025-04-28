@@ -1,7 +1,6 @@
 import { client } from '@/app/libs/sanity';
 import classes from './page.module.css'
 import Link from 'next/link';
-import HeaderComponent from '@/components/ui/header/HeaderComponent';
 
 export async function getData() {
   const query = `
@@ -20,7 +19,6 @@ export default async function InstructionList() {
   if (!instructions) return <div>მონაცემები არ მოიძებნა</div>;
   return (
     <>
-      {/* <HeaderComponent text={'ოლიმპიადის ინსტრუქცია'}/> */}
       <div className={classes.cardsWrapper}>
         {instructions.reverse().map((obj, index) => (
           <Link key={index} href={`instruction/${obj.currentSlug}`} className={classes.card}>

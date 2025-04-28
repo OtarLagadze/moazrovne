@@ -15,7 +15,7 @@
     "@sanity/image-url": "^1.0.2",
     "@sanity/locale-ka-ge": "^1.0.2",
     "@vercel/analytics": "^1.1.2",
-    "@vercel/speed-insights": "^1.0.9",
+    "@vercel/speed-insights": "^1.2.0",
     "better-react-mathjax": "^2.1.0",
     "gray-matter": "^4.0.3",
     "next": "^15.2.2",
