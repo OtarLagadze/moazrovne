@@ -6,31 +6,6 @@ export const moazrovneProblemsType = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "title",
-      type: "string",
-      title: "სათაური",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "taskId",
-      type: "number",
-      title: "ამოცანის ID",
-      description: "ეს ID ავტომატურად გენერირდება"
-    }),
-    defineField({
-      name: "statement",
-      type: "text",
-      title: "ამოცანის პირობა",
-      description: "აქ დაწერეთ ამოცანის პირობა",
-    }),
-    defineField({
-      name: "photos",
-      title: "ფოტოები",
-      type: "array",
-      of: [{ type: "image" }],
-      description: "დაამატეთ ამოცანასთან დაკავშირებული ფოტოები",
-    }),
-    defineField({
       name: "grade",
       title: "კლასის დიაპაზონი",
       type: "object",
@@ -52,31 +27,18 @@ export const moazrovneProblemsType = defineType({
               .max(12)
               .custom((to, context) =>
                 to >= context.parent.from
-                  ? true
-                  : "მინიმალური კლასი უნდა იყოს ნაკლები ან ტოლი მაქსიმალური კლასის"
-              ),
-        }),
-      ],
-    }),
-    defineField({
-      name: "hints",
-      title: "მითითებები",
-      type: "array",
-      of: [{ type: "text" }],
-      description: "დაამატეთ მითითებები",
-    }),
-    defineField({
-      name: "hintPhotos",
-      title: "მითითების ფოტოები",
+              ? true
+              : "მინიმალური კლასი უნდა იყოს ნაკლები ან ტოლი მაქსიმალური კლასის"
+            ),
+          }),
+        ],
+      }),
+      defineField({
+        name: "photos",
+      title: "ფოტოები",
       type: "array",
       of: [{ type: "image" }],
-      description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
-    }),
-    defineField({
-      name: "answer",
-      title: "პასუხი",
-      type: "text",
-      description: "დაამატეთ პასუხი",
+      description: "დაამატეთ ამოცანასთან დაკავშირებული ფოტოები",
     }),
     defineField({
       name: "answerPhotos",
@@ -86,10 +48,11 @@ export const moazrovneProblemsType = defineType({
       description: "დაამატეთ პასუხთან დაკავშირებული ფოტოები",
     }),
     defineField({
-      name: "solution",
-      title: "ამოხსნა",
-      type: "text",
-      description: "დაამატეთ ამოხსნა",
+      name: "hintPhotos",
+      title: "მითითების ფოტოები",
+      type: "array",
+      of: [{ type: "image" }],
+      description: "დაამატეთ მითითებასთან დაკავშირებული ფოტოები",
     }),
     defineField({
       name: "solutionPhotos",
@@ -97,6 +60,43 @@ export const moazrovneProblemsType = defineType({
       type: "array",
       of: [{ type: "image" }],
       description: "დაამატეთ ამოხსნასთან დაკავშირებული ფოტოები",
+    }),
+    defineField({
+      name: "statement",
+      type: "text",
+      title: "ამოცანის პირობა",
+      description: "აქ დაწერეთ ამოცანის პირობა",
+    }),
+    defineField({
+      name: "hints",
+      title: "მითითებები",
+      type: "array",
+      of: [{ type: "text" }],
+      description: "დაამატეთ მითითებები",
+    }),
+    defineField({
+      name: "answer",
+      title: "პასუხი",
+      type: "text",
+      description: "დაამატეთ პასუხი",
+    }),
+    defineField({
+      name: "solution",
+      title: "ამოხსნა",
+      type: "text",
+      description: "დაამატეთ ამოხსნა",
+    }),
+    defineField({
+      name: "title",
+      type: "string",
+      title: "სათაური",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "taskId",
+      type: "number",
+      title: "ამოცანის ID",
+      description: "ეს ID ავტომატურად გენერირდება"
     }),
   ],
   initialValue: async () => {
