@@ -7,6 +7,7 @@ import BackToTop from "@/components/ui/BackToTop";
 import NextTopLoader from "nextjs-toploader";
 import Pixel from "@/components/pixel/Pixel";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import ReduxProvider from "@/app/redux/ReduxProvider";
 
 export const metadata = {
   title: "მოაზროვნე / Moazrovne",
@@ -62,7 +63,9 @@ export default function RootLayout({ children }) {
         <Pixel />
         <SpeedInsights />
         <main className="mainRender">
-          {children}
+          <ReduxProvider>
+            {children}
+          </ReduxProvider>
           <Analytics debug={false} />
         </main>
         <Footer />

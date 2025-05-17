@@ -5,6 +5,11 @@
     "icon": "logo"
   },
   {
+    "href": "/profile",
+    "text": "ავტორიზაცია",
+    "icon": "user"
+  },
+  {
     "href": "/about",
     "text": "ჩვენ შესახებ",
     "icon": "team"
