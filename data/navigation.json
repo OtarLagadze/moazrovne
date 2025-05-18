@@ -10,14 +10,14 @@
     "icon": "user"
   },
   {
-    "href": "/about",
-    "text": "ჩვენ შესახებ",
-    "icon": "team"
-  },
-  {
     "href": "/news",
     "text": "სიახლეები",
     "icon": "earth"
+  },
+  {
+    "href": "/moazrovne",
+    "text": "მოაზროვნეს ოლიმპიადა",
+    "icon": "test"
   },
   {
     "href": "/olympiadProblems",
@@ -30,19 +30,19 @@
     "icon": "hat"
   },
   {
-    "href": "/moazrovne",
-    "text": "მოაზროვნეს ოლიმპიადა",
-    "icon": "test"
+    "href": "/pay",
+    "text": "გადახდა",
+    "icon": "money"
+  },
+  {
+    "href": "/about",
+    "text": "ჩვენ შესახებ",
+    "icon": "team"
   },
   {
     "href": "/gallery",
     "text": "გალერია",
     "icon": "photo"
-  },
-  {
-    "href": "/pay",
-    "text": "გადახდა",
-    "icon": "money"
   },
   {
     "href": "/contact",
