@@ -127,7 +127,6 @@ export default function Register() {
             }[field]}
             name={field}
             type={field === "id" ? "number" : field === "email" ? "email" : field === "password" ? "password" : "text"}
-            inputProps={field === "id" ? { min: 10000000000, max: 99999999999 } : {}}
             onChange={handleChange}
             required
             size="medium"
