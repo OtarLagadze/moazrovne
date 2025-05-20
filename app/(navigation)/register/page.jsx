@@ -61,6 +61,24 @@ export default function Register() {
     setLoading(true);
 
     try {
+      const idQuery = query(
+        collection(db, "users"),
+        where("id", "==", formData.id)
+      );
+      const idSnap = await getDocs(idQuery);
+      if (!idSnap.empty) {
+        setErrorMsg("მომხმარებელი ამ პირადი ნომრით უკვე არსებობს");
+        setLoading(false);
+        return;
+      }
+    } catch (checkErr) {
+      console.error("Error checking ID uniqueness:", checkErr);
+      setErrorMsg("შეცდომა პირადი ნომრის შემოწმებისას");
+      setLoading(false);
+      return;
+    }
+
+    try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         formData.email,
