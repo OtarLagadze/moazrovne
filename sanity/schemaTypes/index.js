@@ -7,6 +7,7 @@ import {moazrovneProblemsType, testsType} from './moazrovne'
 import {olympicsType} from './olympics'
 import {problemsType} from './problems'
 import {instructionType} from './instruction'
+import { eventsType } from './events'
 
 export const schemaTypes = [
   problemsType, 
@@ -14,8 +15,9 @@ export const schemaTypes = [
   testsType, 
   nationalExamsType, 
   practiceTestsType, 
-  aboutType, 
   instructionType,
+  eventsType,
+  aboutType, 
   blogType, 
   olympicsType,
   galleryType, 

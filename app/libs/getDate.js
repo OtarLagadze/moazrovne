@@ -1,13 +1,10 @@
-export default function getDate(date) {
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+import { format } from "date-fns";
+import { ka } from "date-fns/locale";
 
-  if (date) {
-    return new Date(date).toLocaleDateString("ka-GE", options);
-  } else {
-    return new Date().toLocaleDateString("ka-GE", options);
+export default function getDate(date, omitYear = false) {
+  const dt = date ? new Date(date) : new Date();
+  if (omitYear) {
+    return format(dt, "d MMMM", { locale: ka });
   }
+  return format(dt, "d MMMM, yyyy", { locale: ka });
 }
