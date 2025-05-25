@@ -5,6 +5,7 @@ import classes from './TestLink.module.css'
 
 export default function TestLink({ data }) {
   if (!data) return null;
+  if (!data?.file) return null;
   const { file, title } = data;
 
   const pdfSlug = file.split('/').pop().split('.')[0];

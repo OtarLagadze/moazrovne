@@ -8,8 +8,10 @@ import TestLink from "@/components/testLink/TestLink";
 export const revalidate = 30;
 
 async function getData(slug) {
-  const query = (slug === 'problemset' ?
-    `
+  let query;
+
+  if (slug === "problemset") {
+    query = `
       *[_type == 'moazrovneProblems'] | order(taskId desc) {
         taskId,
         statement,
@@ -24,37 +26,58 @@ async function getData(slug) {
         photos,
         "currentSlug": slug.current
       }
-    ` 
-    : 
-    `
+    `;
+  } else if (slug === "tests") {
+    query = `
       *[_type == 'tests'] | order(testId desc) {
         title,
         grade,
         "file": tests.asset->url
       }
-    `
-  );
-  return await client.fetch(query);
+    `;
+  } else if (slug === "eventTests") {
+    query = `
+      *[_type == 'eventTests'] | order(testId desc) {
+        title,
+        grade,
+        "file": tests.asset->url
+      }
+    `;
+  } else {
+    return [];
+  }
+
+  return client.fetch(query);
 }
 
 export default async function MoazrovneSlug({ params, searchParams }) {
-  const { slug } = await params;
-  const resolvedSearchParams = await searchParams;
+  const { slug } = params; 
   const data = await getData(slug);
 
   const filters = [
     { key: "grade", options: gradeOptions, placeholder: "აირჩიეთ კლასი" }
   ];
 
+  const isProblemSet = slug === "problemset";
+  const isTest       = slug === "tests" || slug === "eventTests";
+  const headerText   = isProblemSet
+    ? "სავარჯიშო ამოცანები"
+    : slug === "tests"
+    ? "სავარჯიშო ტესტები"
+    : "ოლიმპიადაზე გამოყენებული ტესტები";
+
+  const itemsPerPage = isProblemSet ? 15 : 20;
+  const RenderComp   = isProblemSet ? ProblemComponent : TestLink;
+
   return (
     <>
-      <HeaderComponent text={slug === 'problemset' ? 'სავარჯიშო ამოცანები' : 'სავარჯიშო ტესტები'}/>
-      <FilterableList 
-        searchParams={resolvedSearchParams} 
+      <HeaderComponent text={headerText} />
+      <FilterableList
+        searchParams={searchParams}
         data={data}
-        itemsPerPage={slug === 'problemset' ? 15 : 20}
+        itemsPerPage={itemsPerPage}
         filters={filters}
-        RenderComponent={slug === 'problemset' ? ProblemComponent : TestLink}
+        RenderComponent={RenderComp}
       />
     </>
   );
