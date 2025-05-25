@@ -11,7 +11,7 @@ export default function PostEvent() {
             მათემატიკის ოლიმპიადა III-IV-V-VI კლასელებისთვის
           </Link>
           <Link href={`/moazrovne/eventTests`} className={classes.card}>
-            "მოაზროვნის" მათემატიკის ოლიმპიადის პირველ ტურზე გამოყენებული ამოცანები
+            მოაზროვნეს მათემატიკის ოლიმპიადის პირველ ტურზე გამოყენებული ამოცანები
           </Link>
         </div>
       </section>
