@@ -80,7 +80,7 @@ export default function PdfViewerPage() {
   }
 
   // DOWNLOAD-FALLBACK (iOS < 15)
-  if (!forceDownload) {
+  if (forceDownload) {
     return (
       <Box
         display="flex"
