@@ -1,20 +1,23 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import LoadingText from "@/app/loadingText";
 import PdfIframe from "@/components/pdfViewer/PdfIframe";
+import { useParams } from "next/navigation";
+import { Box, Button, Typography } from "@mui/material";
 
-const PdfViewer = dynamic(
-  () => import("@/components/pdfViewer/PdfViewer"),
-  { ssr: false, loading: () => <LoadingText /> }
-);
+const PdfViewer = dynamic(() => import("@/components/pdfViewer/PdfViewer"), {
+  ssr: false,
+  loading: () => <LoadingText />,
+});
 
-export default function PdfViewerPage({ params }) {
-  const { slug } = use(params);
+export default function PdfViewerPage() {
+  const { slug } = useParams();
 
-  const [pdfUrl, setPdfUrl]       = useState(null);
-  const [useIframe, setUseIframe] = useState(false);
+  const [pdfUrl, setPdfUrl]           = useState(null);
+  const [useIframe, setUseIframe]     = useState(false);
+  const [forceDownload, setForceDownload] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -22,28 +25,47 @@ export default function PdfViewerPage({ params }) {
     const proxyUrl = `/api/pdf?slug=${encodeURIComponent(slug)}`;
     setPdfUrl(proxyUrl);
 
-    // pdfjs breaks for ios < 18
     const ua = navigator.userAgent;
-    const match = ua.match(/OS (\d+)_/);
-    const iOSver = match ? parseInt(match[1], 10) : null;
-    const isOldiOS = iOSver !== null && iOSver < 18;
 
+    const iOSmatch     = ua.match(/OS (\d+)_/);
+    const iOSver       = iOSmatch ? parseInt(iOSmatch[1], 10) : null;
+    const isTooOldiOS  = iOSver !== null && iOSver < 15;
+    const isOldiOS     = iOSver !== null && iOSver < 18;
+
+    const androidMatch = ua.match(/Android (\d+)(?:\.(\d+))?/);
+    const androidVer   = androidMatch ? parseInt(androidMatch[1], 10) : null;
+    const isOldAndroid = androidVer !== null && androidVer < 8;
+
+    // 1) iOS < 15: force download
+    if (isTooOldiOS) {
+      setForceDownload(true);
+      return;
+    }
+
+    // 2) Android < 8: iframe + download hint
+    if (isOldAndroid) {
+      setUseIframe(true);
+      return;
+    }
+
+    // 3) iOS 15–17: iframe
     if (isOldiOS) {
       setUseIframe(true);
       return;
     }
 
+    // 4) Modern browsers (incl. Android ≥ 8): PDF.js
     let objectUrl;
     fetch(proxyUrl)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) throw new Error("Network response not OK");
         return res.blob();
       })
-      .then(blob => {
+      .then((blob) => {
         objectUrl = URL.createObjectURL(blob);
         setPdfUrl(objectUrl);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Failed to fetch PDF:", err);
         setUseIframe(true);
       });
@@ -57,7 +79,37 @@ export default function PdfViewerPage({ params }) {
     return <LoadingText />;
   }
 
-  return useIframe
-    ? <PdfIframe src={pdfUrl} />
-    : <PdfViewer file={pdfUrl} />;
+  // DOWNLOAD-FALLBACK (iOS < 15)
+  if (!forceDownload) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        p={8}
+      >
+        <Typography variant="body1" gutterBottom>
+          თქვენს მოწყობილობას არ შეუძლია PDF ფაილების საიტზე ჩამონტაჟება.
+        </Typography>
+        <Button
+          variant="contained"
+          href={pdfUrl}
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          გადმოწერა
+        </Button>
+      </Box>
+    );
+  }
+
+  // IFRAME-FALLBACK (Android < 8, iOS 15–17)
+  if (useIframe) {
+    return <PdfIframe src={pdfUrl} />
+  }
+
+  // PDF.JS VIEWER (modern browsers)
+  return <PdfViewer file={pdfUrl} />;
 }
