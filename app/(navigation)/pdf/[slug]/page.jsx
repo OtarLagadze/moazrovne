@@ -1,54 +1,55 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import LoadingText from "@/app/loadingText";
-import PdfIframe from "@/components/pdfViewer/PdfIframe";
-import { useParams } from "next/navigation";
+import { useParams }         from "next/navigation";
+import dynamic                from "next/dynamic";
+import LoadingText            from "@/app/loadingText";
+import PdfIframe             from "@/components/pdfViewer/PdfIframe";
 import { Box, Button, Typography } from "@mui/material";
 
-const PdfViewer = dynamic(() => import("@/components/pdfViewer/PdfViewer"), {
-  ssr: false,
-  loading: () => <LoadingText />,
-});
+const PdfViewer = dynamic(
+  () => import("@/components/pdfViewer/PdfViewer"),
+  { ssr: false, loading: () => <LoadingText /> }
+);
 
 export default function PdfViewerPage() {
   const { slug } = useParams();
-
-  const [pdfUrl, setPdfUrl]           = useState(null);
-  const [useIframe, setUseIframe]     = useState(false);
+  const [pdfUrl, setPdfUrl]         = useState(null);
+  const [useIframe, setUseIframe]   = useState(false);
   const [forceDownload, setForceDownload] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
-
     const proxyUrl = `/api/pdf?slug=${encodeURIComponent(slug)}`;
-    setPdfUrl(proxyUrl);
 
     const ua = navigator.userAgent;
-
-    const iOSmatch     = ua.match(/OS (\d+)_/);
-    const iOSver       = iOSmatch ? parseInt(iOSmatch[1], 10) : null;
+    // more robust iOS version detection:
+    const iOSmatch = ua.match(/OS (\d+)(?:[._]\d+)*/);
+    const iOSver   = iOSmatch ? parseInt(iOSmatch[1], 10) : null;
     const isTooOldiOS  = iOSver !== null && iOSver < 15;
-    const isOldiOS     = iOSver !== null && iOSver < 18;
 
+    // Android < 8 still needs an iframe
     const androidMatch = ua.match(/Android (\d+)(?:\.(\d+))?/);
     const androidVer   = androidMatch ? parseInt(androidMatch[1], 10) : null;
     const isOldAndroid = androidVer !== null && androidVer < 8;
 
-    // 1) iOS < 15: force download
-    if (isTooOldiOS || isOldAndroid) {
+    // 1) iOS < 15: redirect immediately into QuickLook
+    if (isTooOldiOS) {
+      window.location.href = proxyUrl;
+      // also set a state in case manual fallback is needed
+      setPdfUrl(proxyUrl);
       setForceDownload(true);
       return;
     }
 
-    // 2) Android < 8: iframe
-    if (isOldiOS) {
+    // 2) Android < 8: use <iframe>
+    if (isOldAndroid) {
+      setPdfUrl(proxyUrl);
       setUseIframe(true);
       return;
     }
 
-    // 3) Modern browsers (incl. Android ≥ 8): PDF.js
+    // 3) all other “modern” browsers: PDF.js
     let objectUrl;
     fetch(proxyUrl)
       .then((res) => {
@@ -60,7 +61,8 @@ export default function PdfViewerPage() {
         setPdfUrl(objectUrl);
       })
       .catch((err) => {
-        console.error("Failed to fetch PDF:", err);
+        console.error(err);
+        setPdfUrl(proxyUrl);
         setUseIframe(true);
       });
 
@@ -69,41 +71,31 @@ export default function PdfViewerPage() {
     };
   }, [slug]);
 
-  if (!pdfUrl) {
-    return <LoadingText />;
-  }
+  if (!pdfUrl) return <LoadingText />;
 
-  // DOWNLOAD-FALLBACK (Android < 8, iOS < 15)
+  // DOWNLOAD / QUICKLOOK‐FALLBACK for iOS <15
   if (forceDownload) {
     return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        p={8}
-      >
-        <Typography variant="body1" gutterBottom>
-          თქვენს მოწყობილობას არ შეუძლია PDF ფაილების საიტზე ჩამონტაჟება.
+      <Box textAlign="center" p={8}>
+        <Typography gutterBottom>
+          თქვენს ბრაუზერს არ შეუძლია PDF-ის საიტში ჩვენება.<br/>
+          თუ ფაილი ავტომატურად ვერ გაიხსნა, დააჭირეთ:
         </Typography>
         <Button
           variant="contained"
-          href={pdfUrl}
-          download
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => window.open(pdfUrl, "_blank")}
         >
-          გადმოწერა
+          გახსნა
         </Button>
       </Box>
     );
   }
 
-  // IFRAME-FALLBACK (iOS 15–17)
+  // IFRAME‐fallback (Android <8)
   if (useIframe) {
-    return <PdfIframe src={pdfUrl} />
+    return <PdfIframe src={pdfUrl} />;
   }
 
-  // PDF.JS VIEWER (modern browsers)
+  // PDF.js (modern)
   return <PdfViewer file={pdfUrl} />;
 }
