@@ -37,24 +37,18 @@ export default function PdfViewerPage() {
     const isOldAndroid = androidVer !== null && androidVer < 8;
 
     // 1) iOS < 15: force download
-    if (isTooOldiOS) {
+    if (isTooOldiOS || isOldAndroid) {
       setForceDownload(true);
       return;
     }
 
-    // 2) Android < 8: iframe + download hint
-    if (isOldAndroid) {
-      setUseIframe(true);
-      return;
-    }
-
-    // 3) iOS 15–17: iframe
+    // 2) Android < 8: iframe
     if (isOldiOS) {
       setUseIframe(true);
       return;
     }
 
-    // 4) Modern browsers (incl. Android ≥ 8): PDF.js
+    // 3) Modern browsers (incl. Android ≥ 8): PDF.js
     let objectUrl;
     fetch(proxyUrl)
       .then((res) => {
@@ -79,7 +73,7 @@ export default function PdfViewerPage() {
     return <LoadingText />;
   }
 
-  // DOWNLOAD-FALLBACK (iOS < 15)
+  // DOWNLOAD-FALLBACK (Android < 8, iOS < 15)
   if (forceDownload) {
     return (
       <Box
@@ -105,7 +99,7 @@ export default function PdfViewerPage() {
     );
   }
 
-  // IFRAME-FALLBACK (Android < 8, iOS 15–17)
+  // IFRAME-FALLBACK (iOS 15–17)
   if (useIframe) {
     return <PdfIframe src={pdfUrl} />
   }
