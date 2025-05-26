@@ -1,43 +1,52 @@
 "use client";
-
-import { useEffect, useState, use } from "react";
+import { use, useEffect, useState } from "react";
 import LoadingText from "@/app/loadingText";
 import dynamic from "next/dynamic";
+import PdfIframe from "@/components/pdfViewer/PdfIframe";
 
 const PdfViewer = dynamic(
-  () => import("@/components/pdfViewer/PdfViewer"), { 
-    ssr: false,
-    loading: () => <LoadingText />
-  }
+  () => import("@/components/pdfViewer/PdfViewer"),
+  { ssr: false, loading: () => <LoadingText /> }
 );
 
 export default function PdfViewerPage({ params }) {
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [unsupported, setUnsupported] = useState(false);
   const { slug } = use(params);
 
   useEffect(() => {
     if (!slug) return;
+    const fileUrl = `https://cdn.sanity.io/files/8390afyw/production/${slug}.pdf`;
 
-    const fetchPDF = async () => {
-      try {
-        const fileUrl = `https://cdn.sanity.io/files/8390afyw/production/${slug}.pdf`;
-        const response = await fetch(fileUrl);
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setPdfUrl(url);
-      } catch (err) {
+    if (!window.URL || !window.URL.createObjectURL) {
+      setUnsupported(true);
+      setPdfUrl(fileUrl);
+      return;
+    }
+
+    fetch(fileUrl)
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not OK");
+        return res.blob();
+      })
+      .then((blob) => {
+        setPdfUrl(URL.createObjectURL(blob));
+      })
+      .catch((err) => {
         console.error("Failed to fetch PDF:", err);
-      }
-    };
-
-    fetchPDF();
+        setUnsupported(true);
+        setPdfUrl(fileUrl);
+      });
 
     return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+      if (pdfUrl && !unsupported) URL.revokeObjectURL(pdfUrl);
     };
   }, [slug]);
+  if (!pdfUrl) return <LoadingText />;
 
-  if (!pdfUrl) return <LoadingText />
+  if (unsupported) {
+    return <PdfIframe src={pdfUrl}/>
+  }
 
   return <PdfViewer file={pdfUrl} />;
 }
