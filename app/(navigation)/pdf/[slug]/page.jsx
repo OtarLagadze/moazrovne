@@ -1,7 +1,8 @@
 "use client";
+
 import { use, useEffect, useState } from "react";
-import LoadingText from "@/app/loadingText";
 import dynamic from "next/dynamic";
+import LoadingText from "@/app/loadingText";
 import PdfIframe from "@/components/pdfViewer/PdfIframe";
 
 const PdfViewer = dynamic(
@@ -10,43 +11,52 @@ const PdfViewer = dynamic(
 );
 
 export default function PdfViewerPage({ params }) {
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const [unsupported, setUnsupported] = useState(false);
   const { slug } = use(params);
+
+  const [pdfUrl, setPdfUrl]         = useState(null);
+  const [useIframe, setUseIframe]   = useState(false);
 
   useEffect(() => {
     if (!slug) return;
-    const fileUrl = `https://cdn.sanity.io/files/8390afyw/production/${slug}.pdf`;
 
-    if (!window.URL || !window.URL.createObjectURL) {
-      setUnsupported(true);
-      setPdfUrl(fileUrl);
+    const proxyUrl = `/api/pdf?slug=${encodeURIComponent(slug)}`;
+
+    if (!window.URL?.createObjectURL) {
+      setUseIframe(true);
+      setPdfUrl(proxyUrl);
       return;
     }
 
-    fetch(fileUrl)
+    let objectUrl;
+    fetch(proxyUrl)
       .then((res) => {
-        if (!res.ok) throw new Error("Network response was not OK");
+        if (!res.ok) throw new Error("Network response not OK");
         return res.blob();
       })
       .then((blob) => {
-        setPdfUrl(URL.createObjectURL(blob));
+        objectUrl = URL.createObjectURL(blob);
+        setPdfUrl(objectUrl);
       })
       .catch((err) => {
         console.error("Failed to fetch PDF:", err);
-        setUnsupported(true);
-        setPdfUrl(fileUrl);
+        setUseIframe(true);
+        setPdfUrl(proxyUrl);
       });
 
     return () => {
-      if (pdfUrl && !unsupported) URL.revokeObjectURL(pdfUrl);
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
     };
   }, [slug]);
-  if (!pdfUrl) return <LoadingText />;
 
-  if (unsupported) {
-    return <PdfIframe src={pdfUrl}/>
+  if (!pdfUrl) {
+    return <LoadingText />;
   }
 
-  return <PdfViewer file={pdfUrl} />;
+  return useIframe ? (
+    <PdfIframe src={pdfUrl} />
+  ) : (
+    <PdfViewer file={pdfUrl} />
+  );
 }
