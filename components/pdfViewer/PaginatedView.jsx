@@ -7,7 +7,8 @@ import "react-pdf/dist/Page/TextLayer.css";
 import Loading from "@/app/loading";
 import styles from "./PaginatedView.module.css";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
 export default function PaginatedView({ file }) {
   const [numPages, setNumPages] = useState(null);

@@ -13,40 +13,43 @@ const PdfViewer = dynamic(
 export default function PdfViewerPage({ params }) {
   const { slug } = use(params);
 
-  const [pdfUrl, setPdfUrl]         = useState(null);
-  const [useIframe, setUseIframe]   = useState(false);
+  const [pdfUrl, setPdfUrl]       = useState(null);
+  const [useIframe, setUseIframe] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
 
     const proxyUrl = `/api/pdf?slug=${encodeURIComponent(slug)}`;
+    setPdfUrl(proxyUrl);
 
-    if (!window.URL?.createObjectURL) {
+    // pdfjs breaks for ios < 18
+    const ua = navigator.userAgent;
+    const match = ua.match(/OS (\d+)_/);
+    const iOSver = match ? parseInt(match[1], 10) : null;
+    const isOldiOS = iOSver !== null && iOSver < 18;
+
+    if (isOldiOS) {
       setUseIframe(true);
-      setPdfUrl(proxyUrl);
       return;
     }
 
     let objectUrl;
     fetch(proxyUrl)
-      .then((res) => {
+      .then(res => {
         if (!res.ok) throw new Error("Network response not OK");
         return res.blob();
       })
-      .then((blob) => {
+      .then(blob => {
         objectUrl = URL.createObjectURL(blob);
         setPdfUrl(objectUrl);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error("Failed to fetch PDF:", err);
         setUseIframe(true);
-        setPdfUrl(proxyUrl);
       });
 
     return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [slug]);
 
@@ -54,9 +57,7 @@ export default function PdfViewerPage({ params }) {
     return <LoadingText />;
   }
 
-  return useIframe ? (
-    <PdfIframe src={pdfUrl} />
-  ) : (
-    <PdfViewer file={pdfUrl} />
-  );
+  return useIframe
+    ? <PdfIframe src={pdfUrl} />
+    : <PdfViewer file={pdfUrl} />;
 }
