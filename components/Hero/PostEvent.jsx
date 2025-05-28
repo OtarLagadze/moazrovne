@@ -13,17 +13,14 @@ export default function PostEvent() {
           <Link href={`/moazrovne/eventTests`} className={classes.card}>
             მოაზროვნეს მათემატიკის ოლიმპიადის პირველ ტურზე გამოყენებული ამოცანები
           </Link>
+          <Link href={`/pdf/03ac53b0c1eeca9d2a6d3cd0803623fb7c1de969`} className={classes.card}>
+            მოაზროვნეს მათემატიკის ოლიმპიადის ფინალში გადასულ მოსწავლეთა სია 
+          </Link>
         </div>
       </section>
       <header className={classes.header}>
         <div className={classes.headerWrapper}>
           <div className={classes.headerTextWrapper}>
-            <h1 className={classes.heading}>
-              პირველი ტურის შედეგები გამოქვეყნდება ჩვენ ვებგვერდზე და ფბ გვერდზე 31 მაისამდე.
-            </h1>
-            <h1 className={classes.heading}>
-              შეგახსენებთ, რომ ფინალურ ტურში იასპარეზებს პირველ ტურში მონაწილეთა ნახევარი.
-            </h1>
             <h1 className={classes.heading}>
               ფინალური ტურის ჩატარების თარიღი და ადგილები გამოქვეყნდება ოლიმპიადის ჩატარებამდე 10 დღით ადრე.
             </h1>
