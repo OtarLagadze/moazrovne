@@ -1,92 +1,90 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import LoadingText from "@/app/loadingText";
-import { useState, useRef, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./Scroll.module.css";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-
-export default function ScrollView({ file }) {
-  const [numPages, setNumPages] = useState(null);
-  const [width, setWidth] = useState(700);
-  const [renderedPages, setRenderedPages] = useState([]);
-  const [error, setError] = useState(null);
-  const containerRef = useRef(null);
+export default function ScrollView({ pdfDoc }) {
+  const containerRef = useRef();
+  const [width, setWidth]       = useState(0);
+  const [rendered, setRendered] = useState(false);
+  const [error, setError]       = useState("");
 
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        if (entry.contentRect) {
-          setWidth(entry.contentRect.width);
-        }
-      }
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
+    const updateWidth = () => {
       if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+        setWidth(containerRef.current.clientWidth);
       }
     };
+    window.addEventListener("resize", updateWidth);
+    updateWidth();
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
+  
+  useEffect(() => {
+    if (!pdfDoc || !width) return;
 
-  const onDocLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setRenderedPages([]);
-    setError(null);
-  };
+    setRendered(false);
+    setError("");
 
-  const onPageRenderSuccess = (pageIndex) => {
-    setRenderedPages((prev) => {
-      const updated = [...new Set([...prev, pageIndex])];
-      return updated;
-    });
-  };
+    (async () => {
+      try {
+        const canvases = [];
 
-  const onDocLoadError = (err) => {
-    console.error("PDF loading error:", err);
-    setError("დაფიქსირდა შეცდომა");
-  };
+        for (let i = 1; i <= pdfDoc.numPages; i++) {
+          const page = await pdfDoc.getPage(i);
+          const viewport1x = page.getViewport({ scale: 1 });
+          const scale = width / viewport1x.width;
+          const viewport = page.getViewport({ scale });
 
-  const allPagesRendered = numPages !== null && renderedPages.length === numPages;
+          const canvas = document.createElement("canvas");
+          canvas.width  = viewport.width;
+          canvas.height = viewport.height;
 
-  return (
-    <div className={styles.viewerWrapper}>
-      <div ref={containerRef} className={styles.container}>
-        {error && <div className={styles.error}>{error}</div>}
+          canvas.setAttribute("draggable", "false");
+          canvas.style.userSelect     = "none";
+          canvas.style.webkitUserDrag = "none";
+          canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 
-        {!error && !allPagesRendered && (
-          <div className={styles.loading}>
-            <LoadingText />
-          </div>
-        )}
+          const context = canvas.getContext("2d");
+          await page
+            .render({ canvasContext: context, viewport })
+            .promise
+            .catch((e) => {
+              console.error(`Page ${i} render error:`, e);
+              setError("დაფიქსირდა შეცდომა PDF-ის ჩვენებისას");
+              throw new Error(`Failed to render page ${i}`);
+            });
 
-        {!error && (
-          <div className={styles.pdfContainer} style={{ display: allPagesRendered ? "block" : "none" }}>
-            <Document file={file} onLoadSuccess={onDocLoadSuccess} onLoadError={onDocLoadError}>
-              {Array.from(new Array(numPages), (_, index) => (
-                <div key={`page_container_${index + 1}`} className={styles.pageContainer}>
-                  <Page
-                    pageNumber={index + 1}
-                    width={width - 32}
-                    renderAnnotationLayer={false}
-                    renderTextLayer={true}
-                    devicePixelRatio={window.devicePixelRatio || 1}
-                    onRenderSuccess={() => onPageRenderSuccess(index)}
-                  />
-                </div>
-              ))}
-            </Document>
-          </div>
-        )}
+          canvases.push(canvas);
+        }
+
+        const container = containerRef.current;
+        container.innerHTML = "";
+        canvases.forEach((canvas) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = styles.pageContainer;
+          wrapper.appendChild(canvas);
+          container.appendChild(wrapper);
+        });
+
+        setRendered(true);
+      } catch (e) {
+        console.error("ScrollView rendering error:", e);
+        setError("დაფიქსირდა შეცდომა PDF-ის ჩვენებისას");
+      }
+    })();
+  }, [pdfDoc, width]);
+
+  return <>
+    {!rendered && !error && (
+      <div className={styles.loading}>
+        <LoadingText />
       </div>
+    )}
+    {error && <div className={styles.error}>{error}</div>}
+    <div className={styles.viewerWrapper}>
+      <div ref={containerRef} className={styles.container} />
     </div>
-  );
+  </>;
 }

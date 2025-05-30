@@ -213,7 +213,23 @@
   }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 790px) {
+  .link {
+    margin-top: 2px;
+  }
+  
+  .link > p {
+    font-size: 1.2rem;
+    margin-left: 5px;
+  }
+  
+  .link > img {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+}
+
+@media (max-height: 680px) {
   .link {
     margin-top: 2px;
   }

@@ -1,42 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import LoadingText from "@/app/loadingText";
-import { pdfjs } from "react-pdf";
+import ScrollView from "./ScrollView";
+import PaginatedView from "./PaginatedView";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-
-const PaginatedView = dynamic(() => import('@/components/pdfViewer/PaginatedView'), {
-  ssr: false,
-  loading: () => <LoadingText />,
-});
-
-const ScrollView = dynamic(() => import('@/components/pdfViewer/ScrollView'), {
-  ssr: false,
-  loading: () => <LoadingText />,
-});
+import * as pdfjsLib from "pdfjs-dist/build/pdf";
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.js";
 
 export default function PdfViewer({ file }) {
-  const [numPages, setNumPages] = useState(null);
-  const [error, setError] = useState(null);
+  const [numPages, setNumPages] = useState(0);
+  const [pdfDoc, setPdfDoc]     = useState(null);
+  const [error, setError]       = useState("");
 
   useEffect(() => {
-    const loadPDF = async () => {
-      try {
-        const pdf = await pdfjs.getDocument(file).promise;
-        setNumPages(pdf.numPages);
-      } catch (err) {
-        console.error("Error loading PDF:", err);
-        setError("Failed to load PDF");
-      }
-    };
+    if (!file) return;
 
-    loadPDF();
+    setError("");
+    pdfjsLib
+      .getDocument(file)
+      .promise.then((doc) => {
+        setPdfDoc(doc);
+        setNumPages(doc.numPages);
+      })
+      .catch((err) => {
+        console.error("PDF.js load error:", err);
+        setError("Failed to load PDF");
+      });
   }, [file]);
 
-  if (error) return <div className={classes.error}>{error}</div>
-  if (!numPages) return <LoadingText />
+  if (error) return <div className={classes.error}>{error}</div>;
+  if (!pdfDoc) return <LoadingText />;
 
-  return numPages <= 20 ? <ScrollView file={file} /> : <PaginatedView file={file} />;
+  return numPages <= 20
+    ? <ScrollView pdfDoc={pdfDoc} />
+    : <PaginatedView pdfDoc={pdfDoc} />;
 }

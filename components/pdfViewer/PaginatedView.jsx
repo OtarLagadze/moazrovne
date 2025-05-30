@@ -1,128 +1,132 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-import Loading from "@/app/loading";
 import styles from "./PaginatedView.module.css";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-
-export default function PaginatedView({ file }) {
-  const [numPages, setNumPages] = useState(null);
+export default function PaginatedView({ pdfDoc }) {
+  const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [jumpPageInput, setJumpPageInput] = useState("");
-  const [width, setWidth] = useState(800);
-  const [isLoading, setIsLoading] = useState(true);
+  const [width, setWidth] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [error, setError] = useState("");
+
   const containerRef = useRef(null);
-  const jumpInputRef = useRef(null);
-
-  const [containerHeight, setContainerHeight] = useState(800);
   const pageRef = useRef(null);
-  
-  const [displayPageNumber, setDisplayPageNumber] = useState(1);
+  const jumpInputRef = useRef(null);
+  const lastRender = useRef({ page: 0, width: 0 });
 
-  const updateContainerHeight = () => {
-    if (pageRef.current) {
-      const pageElement = pageRef.current.querySelector('.react-pdf__Page');
-      if (pageElement) {
-        const computedStyle = getComputedStyle(pageElement);
-        const heightValue = computedStyle.height;
-        setContainerHeight(parseFloat(heightValue));
+  useEffect(() => {
+    const onResize = () => {
+      if (containerRef.current) {
+        const newWidth = containerRef.current.clientWidth;
+        if (Math.abs(newWidth - width) > 5) {
+          setWidth(newWidth);
+        }
       }
+    };
+    
+    window.addEventListener("resize", onResize);
+    onResize();
+    
+    return () => window.removeEventListener("resize", onResize);
+  }, [width]);
+
+  useEffect(() => {
+    if (!pdfDoc) return;
+    setNumPages(pdfDoc.numPages);
+    setPageNumber(1);
+    setError("");
+  }, [pdfDoc]);
+
+  useEffect(() => {
+    if (!pdfDoc || !width) return;
+
+    if (
+      lastRender.current.page === pageNumber && 
+      lastRender.current.width === width
+    ) {
+      return;
     }
-  };
+
+    const renderPage = async () => {
+      setIsPageLoading(true);
+      setError("");
+      if (!pageRef.current) return;
+      
+      try {
+        const page = await pdfDoc.getPage(pageNumber);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = (width - 32) / baseViewport.width;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        canvas.setAttribute("draggable", "false");
+        canvas.style.userSelect = "none";
+        canvas.style.webkitUserDrag = "none";
+        canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+
+        const ctx = canvas.getContext("2d");
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const wrapper = pageRef.current;
+        wrapper.innerHTML = "";
+        wrapper.appendChild(canvas);
+
+        setContainerHeight(viewport.height);
+        lastRender.current = { page: pageNumber, width };
+      } catch (err) {
+        console.error("Page render error:", err);
+        setError("დაფიქსირდა შეცდომა გვერდის ჩვენებისას");
+      } finally {
+        setIsPageLoading(false);
+      }
+    };
+
+    renderPage();
+  }, [pdfDoc, pageNumber, width]);
 
   const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > numPages) return;
     setPageNumber(newPage);
-    setIsPageLoading(true);
   };
 
   const handleJumpToPage = () => {
-    const newPage = parseInt(jumpPageInput);
-    if (!isNaN(newPage)) {
-      const clampedPage = Math.max(1, Math.min(newPage, numPages || Infinity));
-      if (clampedPage !== pageNumber) {
-        handlePageChange(clampedPage);
-      }
+    const n = parseInt(jumpPageInput, 10);
+    if (!isNaN(n)) {
+      handlePageChange(Math.min(Math.max(1, n), numPages));
     }
     setJumpPageInput("");
     jumpInputRef.current?.blur();
   };
 
-  const handleRenderSuccess = () => {
-    setDisplayPageNumber(pageNumber);
-    setIsPageLoading(false);
-    updateContainerHeight();
-  };
+  const Pagination = () => (
+    <div className={styles.paginationRow}>
+      <button
+        onClick={() => handlePageChange(pageNumber - 1)}
+        disabled={pageNumber <= 1 || isPageLoading}
+        className={styles.navButton}
+      >
+        წინა
+      </button>
 
-  const handleRenderError = (error) => {
-    console.error("Page render error:", error);
-    setIsPageLoading(false);
-  };
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      setWidth(entries[0].contentRect.width);
-      updateContainerHeight();
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || /^[1-9]\d*$/.test(value)) {
-      setJumpPageInput(value);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleJumpToPage();
-    }
-  };
-
-  const Pagination = () => {
-    return (
-      <div className={styles.paginationRow}>
-        <button
-          onClick={() => {
-            const newPage = Math.max(1, pageNumber - 1);
-            setPageNumber(newPage);
-            setIsPageLoading(true);
-          }}
-          disabled={pageNumber <= 1 || isPageLoading}
-          className={styles.navButton}
-        >
-          წინა
-        </button>
-
-        <div className={styles.pageDisplay}>
-          <span>გვერდი {pageNumber} / {numPages || "..."}</span>
-        </div>
-
-        <button
-          onClick={() => {
-            const newPage = Math.min(pageNumber + 1, numPages || Infinity);
-            setPageNumber(newPage);
-            setIsPageLoading(true);
-          }}
-          disabled={pageNumber >= (numPages || Infinity) || isPageLoading}
-          className={styles.navButton}
-        >
-          მომდევნო
-        </button>
+      <div className={styles.pageDisplay}>
+        <span>გვერდი {pageNumber} / {numPages || "..."}</span>
       </div>
-    )
-  }
+
+      <button
+        onClick={() => handlePageChange(pageNumber + 1)}
+        disabled={pageNumber >= numPages || isPageLoading}
+        className={styles.navButton}
+      >
+        შემდეგი
+      </button>
+    </div>
+  );
 
   return (
     <div className={styles.viewerWrapper}>
@@ -134,16 +138,21 @@ export default function PaginatedView({ file }) {
             inputMode="numeric"
             pattern="[0-9]*"
             value={jumpPageInput}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v === "" || /^[1-9]\d*$/.test(v)) {
+                setJumpPageInput(v);
+              }
+            }}
+            onKeyDown={(e) => e.key === "Enter" && handleJumpToPage()}
             className={styles.jumpInput}
             placeholder="გვერდი"
-            disabled={isLoading || isPageLoading}
+            disabled={isPageLoading}
           />
-          <button 
+          <button
             onClick={handleJumpToPage}
             className={styles.jumpButton}
-            disabled={isLoading || isPageLoading || !jumpPageInput}
+            disabled={isPageLoading || !jumpPageInput}
           >
             გადასვლა
           </button>
@@ -151,32 +160,13 @@ export default function PaginatedView({ file }) {
 
         <Pagination />
 
-        <div 
-          className={styles.pdfContainer} 
+        {error && <div className={styles.error}>{error}</div>}
+
+        <div
+          className={styles.pdfContainer}
           style={{ height: `${containerHeight}px` }}
         >
-          <Document
-            file={file}
-            onLoadSuccess={({ numPages }) => {
-              setNumPages(numPages);
-              setIsLoading(false);
-            }}
-            loading={<Loading />}
-          >
-            <div ref={pageRef}>
-              <Page
-                key={`page-${pageNumber}`}
-                pageNumber={pageNumber}
-                width={width - 32}
-                renderAnnotationLayer={false}
-                renderTextLayer={true}
-                loading={<Loading />}
-                onLoadSuccess={handleRenderSuccess}
-                onRenderSuccess={handleRenderSuccess}
-                onRenderError={handleRenderError}
-              />
-            </div>
-          </Document>
+          <div ref={pageRef} className={styles.pageCanvas}></div>
         </div>
 
         <Pagination />
