@@ -34,13 +34,16 @@ export default function ScrollView({ pdfDoc }) {
         for (let i = 1; i <= pdfDoc.numPages; i++) {
           const page = await pdfDoc.getPage(i);
           const viewport1x = page.getViewport({ scale: 1 });
-          const scale = width / viewport1x.width;
+          const dpr = window.devicePixelRatio || 1;
+          const scale = (width / viewport1x.width) * dpr;
           const viewport = page.getViewport({ scale });
 
           const canvas = document.createElement("canvas");
           canvas.width  = viewport.width;
           canvas.height = viewport.height;
-
+          canvas.style.width  = `${width}px`;
+          canvas.style.height = `${viewport.height / dpr}px`;
+          
           canvas.setAttribute("draggable", "false");
           canvas.style.userSelect     = "none";
           canvas.style.webkitUserDrag = "none";

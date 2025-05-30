@@ -58,12 +58,16 @@ export default function PaginatedView({ pdfDoc }) {
       try {
         const page = await pdfDoc.getPage(pageNumber);
         const baseViewport = page.getViewport({ scale: 1 });
-        const scale = (width - 32) / baseViewport.width;
+        const dpr = window.devicePixelRatio || 1;
+        const scale = ((width - 32) / baseViewport.width) * dpr;
         const viewport = page.getViewport({ scale });
 
         const canvas = document.createElement("canvas");
         canvas.width = viewport.width;
         canvas.height = viewport.height;
+
+        canvas.style.width = `${(width - 32)}px`;
+        canvas.style.height = `${viewport.height / dpr}px`;
 
         canvas.setAttribute("draggable", "false");
         canvas.style.userSelect = "none";
