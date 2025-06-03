@@ -52,6 +52,7 @@ async function getData(slug) {
 
 export default async function MoazrovneSlug({ params, searchParams }) {
   const { slug } = params; 
+  const resolvedSearchParams = await searchParams;
   const data = await getData(slug);
 
   const filters = [
@@ -73,7 +74,7 @@ export default async function MoazrovneSlug({ params, searchParams }) {
     <>
       <HeaderComponent text={headerText} />
       <FilterableList
-        searchParams={searchParams}
+        searchParams={resolvedSearchParams}
         data={data}
         itemsPerPage={itemsPerPage}
         filters={filters}
