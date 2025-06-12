@@ -4,6 +4,8 @@ import getDate from "@/app/libs/getDate";
 import NewsElement from "./NewsElement";
 import classes from "./BlogContent.module.css";
 
+export const revalidate = 30;
+
 export async function getData() {
   const query = `
     *[_type == 'blog'] | order(date desc) {

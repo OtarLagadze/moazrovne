@@ -23,7 +23,8 @@ async function getData(slug) {
 }
 
 export default async function BlogArticle({ params }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const data = await getData(slug);
 
   return (
     <section className={classes.section}>

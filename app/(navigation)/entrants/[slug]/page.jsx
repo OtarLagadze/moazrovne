@@ -18,15 +18,16 @@ async function getData(type) {
 }
 
 export default async function EntrantsSlug({ params, searchParams }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const data = await getData(slug);
 
   return (
     <>
-      <HeaderComponent text={params.slug === 'nationalExams' ? 'ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით' : 'სავარჯიშო ტესტები პასუხებით'}/>
+      <HeaderComponent text={slug === 'nationalExams' ? 'ეროვნული გამოცდების ტესტები მითითებებით და პასუხებით' : 'სავარჯიშო ტესტები პასუხებით'}/>
       <FilterableList 
         searchParams={searchParams} 
         data={data}
-        itemsPerPage={params.slug === 'nationalExams' ? 50 : 1000}
+        itemsPerPage={slug === 'nationalExams' ? 50 : 1000}
         RenderComponent={TestLink}
       />
     </>

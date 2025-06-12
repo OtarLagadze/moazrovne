@@ -30,7 +30,7 @@ async function getData(slug) {
 }
 
 export default async function InstructionArticle({ params }) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = await params;
   const data = await getData(slug);
 
   return (

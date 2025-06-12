@@ -51,7 +51,7 @@ async function getData(slug) {
 }
 
 export default async function MoazrovneSlug({ params, searchParams }) {
-  const { slug } = params; 
+  const { slug } = await params; 
   const resolvedSearchParams = await searchParams;
   const data = await getData(slug);
 

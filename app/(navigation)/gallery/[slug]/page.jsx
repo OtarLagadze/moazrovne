@@ -20,7 +20,8 @@ async function getData(slug) {
 }
 
 export default async function GalleryContentPage({ params }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data) {
     return <p className={classes.error}>მონაცემები არ მოიძებნა</p>;
