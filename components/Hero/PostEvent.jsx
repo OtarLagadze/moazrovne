@@ -22,7 +22,7 @@ export default function PostEvent() {
         <div className={classes.headerWrapper}>
           <div className={classes.headerTextWrapper}>
             <h1 className={classes.heading}>
-              ფინალური ტურის ჩატარების თარიღი და ადგილები გამოქვეყნდება ოლიმპიადის ჩატარებამდე 10 დღით ადრე.
+              მოაზროვნეს მათემატიკის ოლიმპიადის ფინალური ტური გაიმართება 22 ივნისს.
             </h1>
           </div>
         </div>
